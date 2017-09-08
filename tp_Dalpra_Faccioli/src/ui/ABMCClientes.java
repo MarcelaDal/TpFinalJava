@@ -65,15 +65,12 @@ public class ABMCClientes extends JFrame {
 		panelAgregarClientes.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Clientes", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		
 		txtId = new JTextField();
-		txtId.setBounds(252, 16, 100, 20);
-		txtId.setVisible(false);
 		txtId.setEditable(false);
-		txtId.setEnabled(false);
+		txtId.setBounds(252, 16, 100, 20);
 		txtId.setColumns(10);
 		
 		lblId = new JLabel("ID");
 		lblId.setBounds(208, 19, 26, 14);
-		lblId.setVisible(false);
 		lblId.setHorizontalAlignment(SwingConstants.RIGHT);
 		
 		JButton btnVaciarCampos = new JButton("Vaciar campos");
