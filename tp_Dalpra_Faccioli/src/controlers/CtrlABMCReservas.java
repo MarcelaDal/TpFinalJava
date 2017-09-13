@@ -34,6 +34,10 @@ public class CtrlABMCReservas {
 		dataReserva.remove(r);
 	}
 	
+	public ArrayList<Elemento> getByTipoElemento(TipoElementos te) throws Exception{
+		return dataElementos.getByTipoElemento(te);
+	}
+	
 	/*public void update(Elemento ele)throws Exception{
 		dataElementos.update(ele);
 	}*/

@@ -175,6 +175,51 @@ public class DataElementos{
 	}
 
 
+public ArrayList<Elemento> getByTipoElemento(TipoElementos te) throws Exception{
 		
+		PreparedStatement stmt=null;
+		ResultSet rs=null;
+		ArrayList<Elemento> elementos= new ArrayList<Elemento>();
+		try {
+			stmt = FactoryConexion.getInstancia()
+					.getConn().prepareStatement(
+					"select * from elementos e inner join tipos_elementos te on e.id_tipo_elemento=te.id where te.id=?");
+			stmt.setInt(1, te.getId() );
+			rs=stmt.executeQuery();
+			if(rs!=null){
+				while(rs.next()){
+					Elemento ele=new Elemento();
+					ele.setTipo(new TipoElementos());
+					ele.setId(rs.getInt("e.id"));
+					ele.setNombre(rs.getString("e.nombre"));
+					ele.setHabilitado(rs.getBoolean("e.habilitado"));
+					ele.getTipo().setId(rs.getInt("e.id_tipo_elemento"));
+					ele.getTipo().setNombre(rs.getString("te.nombre"));
+					ele.getTipo().setCanMaxResPend(rs.getInt("cant_max_reservas_pendientes"));
+					ele.getTipo().setHabilitado(rs.getBoolean("te.habilitado"));
+					
+					elementos.add(ele);
+				}
+			}
+		} catch (SQLException e) {
+			
+			throw e;
+		} catch (AppDataException ade){
+			throw ade;
+		}
+		
+
+		try {
+			if(rs!=null) rs.close();
+			if(stmt!=null) stmt.close();
+			FactoryConexion.getInstancia().releaseConn();
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		
+		return elementos;
+		
+	}	
 	
 }

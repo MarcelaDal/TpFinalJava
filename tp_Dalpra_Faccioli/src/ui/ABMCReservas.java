@@ -17,6 +17,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.border.TitledBorder;
 
 import controlers.CtrlABMCReservas;
+import data.DataElementos;
 import entity.Persona;
 import entity.Reserva;
 import entity.TipoElementos;
@@ -27,6 +28,8 @@ import javax.swing.SwingConstants;
 import javax.swing.JPasswordField;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.GroupLayout;
@@ -54,6 +57,8 @@ import javax.swing.JScrollBar;
 import java.awt.Font;
 import javax.swing.DropMode;
 import java.awt.Dimension;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class ABMCReservas extends JFrame {
 
@@ -164,6 +169,11 @@ public class ABMCReservas extends JFrame {
 		panelAgregarClientes.add(lblTipoElemento);
 		
 		cboTipoElemento = new JComboBox();
+		cboTipoElemento.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				seleccionarTipoElementoClick();
+			}
+		});
 		cboTipoElemento.setBounds(182, 65, 142, 20);
 		panelAgregarClientes.add(cboTipoElemento);
 		
@@ -199,7 +209,7 @@ public class ABMCReservas extends JFrame {
 		
 		
 		contentPane.setLayout(gl_contentPane);
-		cargarListas();
+		cargarListaTipoElementos();
 	}
 	
 	private void mapearAForm(Reserva r){
@@ -225,12 +235,35 @@ public class ABMCReservas extends JFrame {
 		this.mapearAForm(p);
 	}*/
 	
-	private void cargarListas() {
+	private void seleccionarTipoElementoClick(){
+		cargarListaElementos(this.mapearDeFormTipoElemento());
+	}
+	
+	private TipoElementos mapearDeFormTipoElemento(){
+		TipoElementos te= new TipoElementos();
+		if (cboTipoElemento.getSelectedIndex() != -1){
+			te= ((TipoElementos)cboTipoElemento.getSelectedItem());
+		}
+		return te;
+	}
+	
+	
+	
+	private void cargarListaTipoElementos() {
 		try {
 			this.cboTipoElemento.setModel(new DefaultComboBoxModel(this.ctrl.getTipoElementos().toArray()));
 			this.cboTipoElemento.setSelectedIndex(-1);
 			//TODO: cargar los elementos una vez seleccionado el tipo de elemento
 			this.cboElemento.setModel(new DefaultComboBoxModel(this.ctrl.getElementos().toArray()));
+			this.cboElemento.setSelectedIndex(-1);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, "Error recuperando Categorias");
+		}
+	}
+	
+	private void cargarListaElementos(TipoElementos te) {
+		try {
+			this.cboElemento.setModel(new DefaultComboBoxModel(this.ctrl.getByTipoElemento(te).toArray()));
 			this.cboElemento.setSelectedIndex(-1);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, "Error recuperando Categorias");
