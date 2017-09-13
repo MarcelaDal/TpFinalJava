@@ -23,6 +23,7 @@ public class DataPersona{
 			while(rs.next()){
 					if(rs!=null){
 						p=new Persona();
+						p.setCategoria(new Categoria());
 						p.setId(rs.getInt("id"));
 						p.setNombre(rs.getString("nombre"));
 						p.setApellido(rs.getString("apellido"));
@@ -31,6 +32,7 @@ public class DataPersona{
 						p.setUsuario(rs.getString("usuario"));
 						p.setContrasenia(rs.getString("contrasenia"));
 						p.getCategoria().setId(rs.getInt("id_categoria"));
+						
 					}
 					
 			}
