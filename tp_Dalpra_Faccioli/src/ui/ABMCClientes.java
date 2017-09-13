@@ -325,7 +325,7 @@ public class ABMCClientes extends JFrame {
 	}
 	protected void mnuListadoPersonaClick() {
 		this.dispose();
-		ListadoPersonas1 lp= new ListadoPersonas1();
+		ListadoPersonas lp= new ListadoPersonas();
 		lp.setVisible(true);
 		
 	}

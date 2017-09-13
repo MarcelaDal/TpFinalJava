@@ -107,12 +107,12 @@ public class ListadoElementos extends JFrame {
 	protected void initDataBindings() {
 		JTableBinding<Elemento, List<Elemento>, JTable> jTableBinding = SwingBindings.createJTableBinding(UpdateStrategy.READ, elementos, table);
 		//
-		BeanProperty<Elemento, String> personaBeanProperty = BeanProperty.create("nombre");
-		jTableBinding.addColumnBinding(personaBeanProperty).setColumnName("Nombre").setEditable(false);
+		BeanProperty<Elemento, String> elementoBeanProperty = BeanProperty.create("nombre");
+		jTableBinding.addColumnBinding(elementoBeanProperty).setColumnName("Nombre").setEditable(false);
 		//
 		
-		BeanProperty<Elemento, String> personaBeanProperty_3 = BeanProperty.create("tipo.nombre");
-		jTableBinding.addColumnBinding(personaBeanProperty_3).setColumnName("Tipo Elemento").setEditable(false);
+		BeanProperty<Elemento, String> elementoBeanProperty_1 = BeanProperty.create("tipo.nombre");
+		jTableBinding.addColumnBinding(elementoBeanProperty_1).setColumnName("Tipo Elemento").setEditable(false);
 		//
 		jTableBinding.setEditable(false);
 		jTableBinding.bind();

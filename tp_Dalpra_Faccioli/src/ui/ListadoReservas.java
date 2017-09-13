@@ -16,8 +16,9 @@ import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.swingbinding.JTableBinding;
 import org.jdesktop.swingbinding.SwingBindings;
 
-import controlers.CtrlABMCClientes;
-import entity.Persona;
+
+import controlers.CtrlABMCReservas;
+import entity.Reserva;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -33,17 +34,17 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.SystemColor;
 
-public class ListadoPersonas1 extends JFrame {
+public class ListadoReservas extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
-	private ArrayList<Persona> pers;
-	CtrlABMCClientes ctrl= new CtrlABMCClientes();
+	private ArrayList<Reserva> reservas;
+	CtrlABMCReservas ctrl= new CtrlABMCReservas();
 	
 	/**
 	 * Create the frame.
 	 */
-	public ListadoPersonas1() {
+	public ListadoReservas() {
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -53,17 +54,14 @@ public class ListadoPersonas1 extends JFrame {
 		
 		JScrollPane scrollPane = new JScrollPane();
 		
-		JButton btnEditar = new JButton("Editar");
+		JButton btnEditar = new JButton("Cancelar");
 		btnEditar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				btnEditarClick();
+				btnCancelarClick();
 			}
 		});
-		btnEditar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		
 		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
@@ -91,7 +89,7 @@ public class ListadoPersonas1 extends JFrame {
 		contentPane.setLayout(gl_contentPane);
 		
 		try{
-			this.pers=ctrl.getAll();
+			this.reservas=ctrl.getAll();
 		} catch (Exception e){
 			JOptionPane.showMessageDialog(this,e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 	
@@ -99,30 +97,32 @@ public class ListadoPersonas1 extends JFrame {
 		initDataBindings();
 	}
 	
-	protected void btnEditarClick() {
-		int indexPersona=table.convertRowIndexToModel(table.getSelectedRow());
+	protected void btnCancelarClick() {
+		int indexElemento=table.convertRowIndexToModel(table.getSelectedRow());
 		
-		ABMCClientes pd= new ABMCClientes();
-		pd.showPersona(this.pers.get(indexPersona));
-		
-		//this.getDesktopPane().add(pd);
-		pd.setVisible(true);
-		this.dispose();
+		//TODO: al hacer click en este boton debe pasar de estado activo a cancelado
+		//this.dispose();
 	}
 	protected void initDataBindings() {
-		JTableBinding<Persona, List<Persona>, JTable> jTableBinding = SwingBindings.createJTableBinding(UpdateStrategy.READ, pers, table);
+		JTableBinding<Reserva, List<Reserva>, JTable> jTableBinding = SwingBindings.createJTableBinding(UpdateStrategy.READ, reservas, table);
 		//
-		BeanProperty<Persona, String> personaBeanProperty = BeanProperty.create("nombre");
-		jTableBinding.addColumnBinding(personaBeanProperty).setColumnName("Nombre").setEditable(false);
+		BeanProperty<Reserva, String> reservaBeanProperty = BeanProperty.create("id");
+		jTableBinding.addColumnBinding(reservaBeanProperty).setColumnName("ID Reserva").setEditable(false);
 		//
-		BeanProperty<Persona, String> personaBeanProperty_1 = BeanProperty.create("apellido");
-		jTableBinding.addColumnBinding(personaBeanProperty_1).setColumnName("Apellido").setEditable(false);
+		BeanProperty<Reserva, String> reservaBeanProperty_1 = BeanProperty.create("persona.nombre");
+		jTableBinding.addColumnBinding(reservaBeanProperty_1).setColumnName("Nombre").setEditable(false);
 		//
-		BeanProperty<Persona, String> personaBeanProperty_2 = BeanProperty.create("dni");
-		jTableBinding.addColumnBinding(personaBeanProperty_2).setColumnName("DNI").setEditable(false);
+		BeanProperty<Reserva, String> reservaBeanProperty_2 = BeanProperty.create("persona.apellido");
+		jTableBinding.addColumnBinding(reservaBeanProperty_2).setColumnName("Apellido").setEditable(false);
 		//
-		BeanProperty<Persona, String> personaBeanProperty_3 = BeanProperty.create("categoria.descripcion");
-		jTableBinding.addColumnBinding(personaBeanProperty_3).setColumnName("Categoria").setEditable(false);
+		BeanProperty<Reserva, String> personaBeanProperty_3 = BeanProperty.create("elemento.nombre");
+		jTableBinding.addColumnBinding(personaBeanProperty_3).setColumnName("Elemento Reservado").setEditable(false);
+		//
+		BeanProperty<Reserva, String> reservaBeanProperty_4 = BeanProperty.create("fecha");
+		jTableBinding.addColumnBinding(reservaBeanProperty_4).setColumnName("Fecha").setEditable(false);
+		//
+		BeanProperty<Reserva, String> reservaBeanProperty_5 = BeanProperty.create("hora");
+		jTableBinding.addColumnBinding(reservaBeanProperty_5).setColumnName("Hora").setEditable(false);
 		//
 		jTableBinding.setEditable(false);
 		jTableBinding.bind();

@@ -29,6 +29,7 @@ import java.awt.Dimension;
 import javax.swing.Box;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class Main {
 
@@ -69,10 +70,8 @@ public class Main {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 604, 401);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
 		
 		btnClientes = new JButton("Clientes");
-		btnClientes.setBounds(299, 54, 205, 100);
 		btnClientes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ABMCClientes cli= new ABMCClientes();
@@ -81,7 +80,6 @@ public class Main {
 
 			
 		});
-		frame.getContentPane().add(btnClientes);
 		
 		btnReservas = new JButton("Reservas");
 		btnReservas.addMouseListener(new MouseAdapter() {
@@ -91,12 +89,10 @@ public class Main {
 				res.setVisible(true);
 			}
 		});
-		btnReservas.setBounds(61, 51, 205, 106);
 		btnReservas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		frame.getContentPane().add(btnReservas);
 		
 		btnMantenimientoTipoEle = new JButton("Mantenimiento tipo elementos");
 		btnMantenimientoTipoEle.addActionListener(new ActionListener() {
@@ -110,8 +106,6 @@ public class Main {
 				mantTipoEle.setVisible(true);
 			}
 		});
-		btnMantenimientoTipoEle.setBounds(299, 210, 205, 48);
-		frame.getContentPane().add(btnMantenimientoTipoEle);
 		
 		JButton btnMantenimientoEle = new JButton("Mantenimiento Elementos");
 		btnMantenimientoEle.addMouseListener(new MouseAdapter() {
@@ -121,7 +115,33 @@ public class Main {
 				mantEle.setVisible(true);
 			}
 		});
-		btnMantenimientoEle.setBounds(299, 274, 205, 48);
-		frame.getContentPane().add(btnMantenimientoEle);
+		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(65)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(btnMantenimientoEle, GroupLayout.PREFERRED_SIZE, 205, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnReservas, GroupLayout.PREFERRED_SIZE, 205, GroupLayout.PREFERRED_SIZE))
+					.addGap(33)
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addComponent(btnClientes, GroupLayout.PREFERRED_SIZE, 205, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnMantenimientoTipoEle, GroupLayout.PREFERRED_SIZE, 205, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(80, Short.MAX_VALUE))
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(53)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnReservas, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnClientes, GroupLayout.PREFERRED_SIZE, 108, GroupLayout.PREFERRED_SIZE))
+					.addGap(28)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnMantenimientoEle, GroupLayout.PREFERRED_SIZE, 112, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnMantenimientoTipoEle, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(56, Short.MAX_VALUE))
+		);
+		frame.getContentPane().setLayout(groupLayout);
 	}
 }

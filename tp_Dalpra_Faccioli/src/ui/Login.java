@@ -28,7 +28,7 @@ public class Login extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -39,7 +39,7 @@ public class Login extends JFrame {
 				}
 			}
 		});
-	}
+	}*/
 
 	/**
 	 * Create the frame.
@@ -95,6 +95,7 @@ public class Login extends JFrame {
 		String usuario= txtUsuario.getText();
 		String pass= String.valueOf(txtContraseña.getPassword());
 		
+		//TODO: guardar en variable de sesión
 		DataPersona login= new DataPersona();
 		Persona p= new Persona();
 		p.setUsuario(usuario);
