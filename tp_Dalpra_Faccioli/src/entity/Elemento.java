@@ -43,4 +43,8 @@ public class Elemento {
 	public int hashCode(){
 		return ((Integer)this.getId()).hashCode();
 	}
+	@Override
+	public String toString(){
+		return this.getNombre();
+	}
 }
