@@ -16,9 +16,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.border.TitledBorder;
 
-import controlers.CtrlABMCClientes;
+import controlers.CtrlABMCReservas;
 import entity.Persona;
+import entity.Reserva;
+import entity.TipoElementos;
 import entity.Categoria;
+import entity.Elemento;
 
 import javax.swing.SwingConstants;
 import javax.swing.JPasswordField;
@@ -36,21 +39,32 @@ import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.Bindings;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
+import com.toedter.calendar.JCalendar;
+import com.toedter.calendar.JDateChooser;
+import java.awt.TextField;
+import java.awt.TextArea;
+import javax.swing.JFormattedTextField;
+import javax.swing.JTable;
+import javax.swing.JSpinner;
+import java.awt.Choice;
+import java.awt.Button;
+import javax.swing.JTextPane;
+import javax.swing.JTextArea;
+import javax.swing.JScrollBar;
+import java.awt.Font;
+import javax.swing.DropMode;
+import java.awt.Dimension;
 
 public class ABMCReservas extends JFrame {
 
-	private CtrlABMCClientes ctrl=new CtrlABMCClientes();
-	
+	private CtrlABMCReservas ctrl=new CtrlABMCReservas();
 	
 	private JPanel contentPane;
-	private JTextField txtDni;
-	private JTextField txtNombre;
-	private JTextField txtApellido;
-	private JCheckBox chkHabilitado;
-	private JComboBox cboCategoria;
 	private JPanel panelAgregarClientes;
-	private JTextField txtId;
-	private JLabel lblId;
+	private JTable table;
+	private JComboBox cboTipoElemento, cboElemento;
+	private JTextArea textAreaDesc;
+	private JTextField textField;
 
 	/**
 	 * Launch the application.
@@ -80,30 +94,15 @@ public class ABMCReservas extends JFrame {
 		setContentPane(contentPane);
 		
 		panelAgregarClientes = new JPanel();
+		panelAgregarClientes.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		panelAgregarClientes.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Reservas", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		
-		txtId = new JTextField();
-		txtId.setBounds(252, 16, 100, 20);
-		txtId.setVisible(false);
-		txtId.setEditable(false);
-		txtId.setEnabled(false);
-		txtId.setColumns(10);
-		
-		lblId = new JLabel("ID");
-		lblId.setBounds(208, 19, 26, 14);
-		lblId.setVisible(false);
-		lblId.setHorizontalAlignment(SwingConstants.RIGHT);
 		
 		JButton btnVaciarCampos = new JButton("Vaciar campos");
 		btnVaciarCampos.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				txtId.setText("");
-				txtDni.setText("");
-				txtNombre.setText("");
-				txtApellido.setText("");
-				cboCategoria.setSelectedItem(null);
-				chkHabilitado.setSelected(false);
+				
+				cboTipoElemento.setSelectedItem(null);
 				
 			}
 		});
@@ -114,138 +113,134 @@ public class ABMCReservas extends JFrame {
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(5)
+					.addContainerGap()
 					.addComponent(panelAgregarClientes, GroupLayout.PREFERRED_SIZE, 689, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(18, Short.MAX_VALUE))
+					.addContainerGap(13, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.TRAILING)
-				.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
 					.addComponent(panelAgregarClientes, GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		
-		JLabel lblDni = new JLabel("DNI");
-		lblDni.setBounds(208, 49, 26, 14);
-		lblDni.setHorizontalAlignment(SwingConstants.RIGHT);
+		JButton btnConfirmarReserva = new JButton("Confirmar Reserva");
+		btnConfirmarReserva.setBounds(72, 322, 192, 34);
 		
-		txtDni = new JTextField();
-		txtDni.setBounds(252, 46, 100, 20);
-		txtDni.setColumns(10);
-		
-		JButton btnBuscar = new JButton("Buscar");
-		btnBuscar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnBuscar.addMouseListener(new MouseAdapter() {
+		JButton btnListado = new JButton("Listado");
+		btnListado.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				buscarClick();
+			public void mouseClicked(MouseEvent arg0) {
+				mnuListadoReservasClick();
 			}
 		});
-		btnBuscar.setBounds(370, 45, 100, 23);
-		
-		JLabel lblNombre = new JLabel("Nombre");
-		lblNombre.setBounds(166, 86, 68, 14);
-		lblNombre.setHorizontalAlignment(SwingConstants.RIGHT);
-		
-		txtNombre = new JTextField();
-		txtNombre.setBounds(252, 79, 100, 20);
-		txtNombre.setColumns(10);
-		
-		JLabel lblApellido = new JLabel("Apellido");
-		lblApellido.setBounds(166, 121, 68, 14);
-		lblApellido.setHorizontalAlignment(SwingConstants.RIGHT);
-		
-		txtApellido = new JTextField();
-		txtApellido.setBounds(252, 111, 100, 20);
-		txtApellido.setColumns(10);
-		
-		JLabel lblCategoria = new JLabel("Categor\u00EDa");
-		lblCategoria.setBounds(166, 156, 68, 14);
-		lblCategoria.setHorizontalAlignment(SwingConstants.RIGHT);
-		
-		cboCategoria = new JComboBox();
-		cboCategoria.setBounds(252, 153, 100, 20);
-		
-		chkHabilitado = new JCheckBox("Habilitado");
-		chkHabilitado.setBounds(252, 191, 100, 23);
-		chkHabilitado.setSelected(false);
-		
-		JButton btnAgregarCliente = new JButton("Agregar Cliente");
-		btnAgregarCliente.setBounds(29, 244, 136, 34);
-		
-		JButton btnModificarDatos = new JButton("Modificar Datos");
-		btnModificarDatos.setBounds(216, 244, 136, 34);
-		
-		JButton btnBorrar = new JButton("Borrar Cliente");
-		btnBorrar.setBounds(403, 244, 136, 34);
+		btnListado.setBounds(381, 322, 136, 34);
 		panelAgregarClientes.setLayout(null);
-		panelAgregarClientes.add(lblId);
-		panelAgregarClientes.add(txtId);
-		panelAgregarClientes.add(lblDni);
-		panelAgregarClientes.add(txtDni);
-		panelAgregarClientes.add(btnBuscar);
-		panelAgregarClientes.add(lblNombre);
-		panelAgregarClientes.add(txtNombre);
-		panelAgregarClientes.add(lblApellido);
-		panelAgregarClientes.add(txtApellido);
-		panelAgregarClientes.add(lblCategoria);
-		panelAgregarClientes.add(cboCategoria);
-		panelAgregarClientes.add(chkHabilitado);
-		panelAgregarClientes.add(btnAgregarCliente);
-		panelAgregarClientes.add(btnModificarDatos);
-		panelAgregarClientes.add(btnBorrar);
+		panelAgregarClientes.add(btnConfirmarReserva);
+		panelAgregarClientes.add(btnListado);
 		panelAgregarClientes.add(btnVaciarCampos);
+		
+		JLabel lblFecha = new JLabel("Fecha");
+		lblFecha.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblFecha.setBounds(104, 160, 68, 14);
+		panelAgregarClientes.add(lblFecha);
+		
+		JDateChooser dateChooser = new JDateChooser();
+		dateChooser.setBounds(182, 154, 142, 20);
+		panelAgregarClientes.add(dateChooser);
+		
+		JLabel lblHora = new JLabel("Hora");
+		lblHora.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblHora.setBounds(104, 197, 68, 14);
+		panelAgregarClientes.add(lblHora);
+		
+		table = new JTable();
+		table.setBounds(258, 268, 62, -9);
+		panelAgregarClientes.add(table);
+		
+		JLabel lblTipoElemento = new JLabel("Tipo Elemento");
+		lblTipoElemento.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblTipoElemento.setBounds(72, 68, 100, 14);
+		panelAgregarClientes.add(lblTipoElemento);
+		
+		cboTipoElemento = new JComboBox();
+		cboTipoElemento.setBounds(182, 65, 142, 20);
+		panelAgregarClientes.add(cboTipoElemento);
+		
+		JLabel lblElemento = new JLabel("Elemento");
+		lblElemento.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblElemento.setBounds(72, 112, 100, 14);
+		panelAgregarClientes.add(lblElemento);
+		
+		cboElemento = new JComboBox();
+		cboElemento.setBounds(182, 109, 142, 20);
+		panelAgregarClientes.add(cboElemento);
+		
+		JLabel lblDetalle = new JLabel("Detalle");
+		lblDetalle.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblDetalle.setBounds(104, 231, 68, 14);
+		panelAgregarClientes.add(lblDetalle);
+		
+		textAreaDesc = new JTextArea();
+		textAreaDesc.setName("descipcion");
+		textAreaDesc.setTabSize(2);
+		textAreaDesc.setFont(new Font("Calibri", Font.PLAIN, 13));
+		textAreaDesc.setWrapStyleWord(true);
+		textAreaDesc.setLineWrap(true);
+		textAreaDesc.setBounds(182, 226, 211, 47);
+		panelAgregarClientes.add(textAreaDesc);
+		
+		//TODO: agregar algun time picker
+		textField = new JTextField();
+		textField.setBounds(182, 194, 86, 20);
+		panelAgregarClientes.add(textField);
+		textField.setColumns(10);
+		
+		
+		
 		contentPane.setLayout(gl_contentPane);
 		cargarListas();
 	}
 	
-	private void mapearAForm(Persona p){
-		this.txtDni.setText(p.getDni());
-		this.txtNombre.setText(p.getNombre());
-		this.txtApellido.setText(p.getApellido());
-		this.chkHabilitado.setSelected(p.isHabilitado());
-		this.cboCategoria.setSelectedItem(p.getCategoria());
-		this.txtId.setText(String.valueOf(p.getId()));
-	}
-	protected void buscarClick() {
-		try {
-			this.mapearAForm(ctrl.getByDni(this.mapearDeForm()));
-			lblId.setVisible(true);
-			txtId.setVisible(true);
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, e.getMessage());
-		}
+	private void mapearAForm(Reserva r){
 		
 	}
 	
-	private Persona mapearDeForm(){
-		Persona p=new Persona();
-		if(!this.txtId.getText().isEmpty()){
-			p.setId(Integer.parseInt(this.txtId.getText()));
+	private Reserva mapearDeForm(){
+		Reserva r=new Reserva();
+		
+		r.setEstado("activo");
+		if (cboElemento.getSelectedIndex() != -1){
+			r.setElemento((Elemento)cboElemento.getSelectedItem());
 		}
-		p.setDni(this.txtDni.getText());
-		p.setNombre(this.txtNombre.getText());
-		p.setApellido(this.txtApellido.getText());
-		p.setHabilitado(this.chkHabilitado.isSelected());
-		if (cboCategoria.getSelectedIndex() != -1){
-			p.setCategoria((Categoria)cboCategoria.getSelectedItem());
-		}
-		return p;
+		//TODO: obtener la persona de la variable de sesión
+		//r.setPersona(persona);
+		
+		
+		
+		return r;
 	}
 	
-	public void showPersona(Persona p){
+	/*public void showPersona(Persona p){
 		this.mapearAForm(p);
-	}
+	}*/
 	
 	private void cargarListas() {
 		try {
-			this.cboCategoria.setModel(new DefaultComboBoxModel(this.ctrl.getCategorias().toArray()));
-			this.cboCategoria.setSelectedIndex(-1);
+			this.cboTipoElemento.setModel(new DefaultComboBoxModel(this.ctrl.getTipoElementos().toArray()));
+			this.cboTipoElemento.setSelectedIndex(-1);
+			//TODO: cargar los elementos una vez seleccionado el tipo de elemento
+			this.cboElemento.setModel(new DefaultComboBoxModel(this.ctrl.getElementos().toArray()));
+			this.cboElemento.setSelectedIndex(-1);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, "Error recuperando Categorias");
 		}
+	}
+	
+	protected void mnuListadoReservasClick() {
+		this.dispose();
+		ListadoReservas lr= new ListadoReservas();
+		lr.setVisible(true);
+		
 	}
 }
