@@ -109,6 +109,7 @@ public class ListadoPersonas extends JFrame {
 		pd.setVisible(true);
 		this.dispose();
 	}
+	
 	protected void initDataBindings() {
 		JTableBinding<Persona, List<Persona>, JTable> jTableBinding = SwingBindings.createJTableBinding(UpdateStrategy.READ, pers, table);
 		//

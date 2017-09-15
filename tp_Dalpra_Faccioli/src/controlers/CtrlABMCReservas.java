@@ -12,14 +12,12 @@ import entity.TipoElementos;
 
 public class CtrlABMCReservas {
 	
-	private DataPersona dataPersona;
 	private DataReserva dataReserva;
 	private DataElementos dataElementos;
 	private DataTipoElementos dataTipoEle;
 	
 	
 	public CtrlABMCReservas(){
-		dataPersona = new DataPersona();
 		dataReserva = new DataReserva();
 		dataElementos = new DataElementos();
 		dataTipoEle = new DataTipoElementos();
@@ -38,9 +36,9 @@ public class CtrlABMCReservas {
 		return dataElementos.getByTipoElemento(te);
 	}
 	
-	/*public void update(Elemento ele)throws Exception{
-		dataElementos.update(ele);
-	}*/
+	public void update(Reserva r) throws Exception{
+		dataReserva.update(r);
+	}
 	
 	/*public Elemento getByNombre(Elemento el) throws Exception{
 		return this.dataElementos.getByNombre(el);

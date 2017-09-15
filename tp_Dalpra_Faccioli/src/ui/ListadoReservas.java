@@ -54,12 +54,22 @@ public class ListadoReservas extends JFrame {
 		
 		JScrollPane scrollPane = new JScrollPane();
 		
-		JButton btnEditar = new JButton("Cancelar");
-		btnEditar.addMouseListener(new MouseAdapter() {
+		JButton btnCancelarReserva = new JButton("Cancelar Reserva");
+		btnCancelarReserva.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				btnCancelarClick();
 			}
+		});
+		
+		JButton btnSalir = new JButton("Salir");
+		btnSalir.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				btnSalirClick();
+			}
+
+			
 		});
 		
 		
@@ -69,9 +79,14 @@ public class ListadoReservas extends JFrame {
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
-						.addComponent(btnEditar, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap())
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
+							.addContainerGap())
+						.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+							.addComponent(btnCancelarReserva, GroupLayout.PREFERRED_SIZE, 145, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED, 165, Short.MAX_VALUE)
+							.addComponent(btnSalir, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
+							.addGap(18))))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -79,8 +94,10 @@ public class ListadoReservas extends JFrame {
 					.addGap(2)
 					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 216, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnEditar)
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnSalir)
+						.addComponent(btnCancelarReserva))
+					.addContainerGap())
 		);
 		
 		table = new JTable();
@@ -98,12 +115,29 @@ public class ListadoReservas extends JFrame {
 	}
 	
 	protected void btnCancelarClick() {
-		int indexElemento=table.convertRowIndexToModel(table.getSelectedRow());
+		int indexReserva=table.convertRowIndexToModel(table.getSelectedRow());
 		
-		//TODO: al hacer click en este boton debe pasar de estado activo a cancelado
-		//this.dispose();
+		int confirmado = JOptionPane.showConfirmDialog(contentPane,"¿Está seguro que desea cancelar su reserva?");
+		if (JOptionPane.OK_OPTION == confirmado){
+			try {
+				ctrl.update(this.reservas.get(indexReserva));
+				JOptionPane.showMessageDialog(contentPane, "Reserva Cancelada");
+			} catch (Exception e) {
+				e.printStackTrace();
+				JOptionPane.showMessageDialog(this,e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+			}
+		}
 	}
+	
+	protected void btnSalirClick() {
+		this.dispose();		
+	}	
+	
+	
 	protected void initDataBindings() {
+		
+		//TODO: mostrar sólo las reservas que están activas
+		
 		JTableBinding<Reserva, List<Reserva>, JTable> jTableBinding = SwingBindings.createJTableBinding(UpdateStrategy.READ, reservas, table);
 		//
 		BeanProperty<Reserva, String> reservaBeanProperty = BeanProperty.create("id");

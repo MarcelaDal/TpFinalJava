@@ -22,7 +22,8 @@ public class DataReserva{
 					"insert into reserva (fechaYHora, detalle, estado, id_persona, id_elemento) values (?,?,?,?,?)",
 					PreparedStatement.RETURN_GENERATED_KEYS
 					);
-			stmt.setDate(1, r.getFecha());
+			
+			stmt.setDate(1, (Date)r.getFecha());
 			stmt.setString(2, r.getDetalle());
 			//stmt.setString(3, r.getEstado());
 			stmt.setString(3, "activa");
@@ -101,7 +102,7 @@ public class DataReserva{
 					r.getElemento().setNombre(rs.getString("e.nombre"));
 					r.setFecha(rs.getDate("r.fecha"));
 					r.setHora(rs.getTime("r.hora"));
-					r.setEstado(rs.getString("r.estado"));					
+					r.setEstado(rs.getBoolean("r.estado"));					
 					
 					reservas.add(r);
 				}
@@ -110,6 +111,7 @@ public class DataReserva{
 			
 			throw e;
 		} catch (AppDataException ade){
+			
 			throw ade;
 		}
 		
@@ -153,17 +155,17 @@ public class DataReserva{
 		
 	}
 
-	/*public void update(Reserva r) throws Exception {
+	public void update(Reserva r) throws Exception {
+		
 		PreparedStatement stmt=null;
 		
 		try {
 			stmt=FactoryConexion.getInstancia().getConn()
 					.prepareStatement(
-					"update reservas set nombre=?, habilitado=? where id=?"
+					"update reservas set estado=0 where id=?"
 					);
-			stmt.setString(1, ele.getNombre());
-			stmt.setBoolean(2, ele.isHabilitado());
-			stmt.setInt(3, ele.getId());
+			stmt.setInt(1, r.getId());
+			
 			stmt.executeUpdate();
 						
 			
@@ -178,7 +180,7 @@ public class DataReserva{
 			e.printStackTrace();
 		}
 		
-	}*/
+	}
 
 
 		

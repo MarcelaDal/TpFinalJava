@@ -1,8 +1,5 @@
 package ui;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
@@ -12,53 +9,36 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import javax.swing.border.TitledBorder;
 
 import controlers.CtrlABMCReservas;
-import data.DataElementos;
-import entity.Persona;
 import entity.Reserva;
 import entity.TipoElementos;
-import entity.Categoria;
 import entity.Elemento;
 
 import javax.swing.SwingConstants;
-import javax.swing.JPasswordField;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
+import java.sql.Time;
+import java.util.Date;
 
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.UIManager;
 import java.awt.Color;
-import java.awt.Dialog.ModalExclusionType;
-import org.jdesktop.beansbinding.BeanProperty;
-import org.jdesktop.beansbinding.AutoBinding;
-import org.jdesktop.beansbinding.Bindings;
-import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
-import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
-import java.awt.TextField;
-import java.awt.TextArea;
-import javax.swing.JFormattedTextField;
+
 import javax.swing.JTable;
-import javax.swing.JSpinner;
-import java.awt.Choice;
-import java.awt.Button;
-import javax.swing.JTextPane;
 import javax.swing.JTextArea;
-import javax.swing.JScrollBar;
 import java.awt.Font;
-import javax.swing.DropMode;
-import java.awt.Dimension;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
+import com.github.lgooddatepicker.components.TimePicker;
+import java.awt.ComponentOrientation;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class ABMCReservas extends JFrame {
 
@@ -68,8 +48,9 @@ public class ABMCReservas extends JFrame {
 	private JPanel panelAgregarClientes;
 	private JTable table;
 	private JComboBox cboTipoElemento, cboElemento;
-	private JTextArea textAreaDesc;
-	private JTextField textField;
+	private JTextArea textAreaDetalle;
+	private JDateChooser dateChooser;
+	private TimePicker timePicker;
 
 	/**
 	 * Launch the application.
@@ -130,6 +111,12 @@ public class ABMCReservas extends JFrame {
 		);
 		
 		JButton btnConfirmarReserva = new JButton("Confirmar Reserva");
+		btnConfirmarReserva.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				reservarClick();
+			}
+		});
 		btnConfirmarReserva.setBounds(72, 322, 192, 34);
 		
 		JButton btnListado = new JButton("Listado");
@@ -150,9 +137,10 @@ public class ABMCReservas extends JFrame {
 		lblFecha.setBounds(104, 160, 68, 14);
 		panelAgregarClientes.add(lblFecha);
 		
-		JDateChooser dateChooser = new JDateChooser();
+		dateChooser = new JDateChooser("yyyy/MM/dd", "####/##/##", '_');
 		dateChooser.setBounds(182, 154, 142, 20);
 		panelAgregarClientes.add(dateChooser);
+		dateChooser.setMinSelectableDate(new Date());
 		
 		JLabel lblHora = new JLabel("Hora");
 		lblHora.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -188,25 +176,21 @@ public class ABMCReservas extends JFrame {
 		
 		JLabel lblDetalle = new JLabel("Detalle");
 		lblDetalle.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblDetalle.setBounds(104, 231, 68, 14);
+		lblDetalle.setBounds(104, 240, 68, 14);
 		panelAgregarClientes.add(lblDetalle);
 		
-		textAreaDesc = new JTextArea();
-		textAreaDesc.setName("descipcion");
-		textAreaDesc.setTabSize(2);
-		textAreaDesc.setFont(new Font("Calibri", Font.PLAIN, 13));
-		textAreaDesc.setWrapStyleWord(true);
-		textAreaDesc.setLineWrap(true);
-		textAreaDesc.setBounds(182, 226, 211, 47);
-		panelAgregarClientes.add(textAreaDesc);
+		textAreaDetalle = new JTextArea();
+		textAreaDetalle.setName("descipcion");
+		textAreaDetalle.setTabSize(2);
+		textAreaDetalle.setFont(new Font("Calibri", Font.PLAIN, 13));
+		textAreaDetalle.setWrapStyleWord(true);
+		textAreaDetalle.setLineWrap(true);
+		textAreaDetalle.setBounds(182, 235, 211, 47);
+		panelAgregarClientes.add(textAreaDetalle);
 		
-		//TODO: agregar algun time picker
-		textField = new JTextField();
-		textField.setBounds(182, 194, 86, 20);
-		panelAgregarClientes.add(textField);
-		textField.setColumns(10);
-		
-		
+		timePicker = new TimePicker();
+		timePicker.setBounds(182, 193, 142, 23);
+		panelAgregarClientes.add(timePicker);
 		
 		contentPane.setLayout(gl_contentPane);
 		cargarListaTipoElementos();
@@ -219,21 +203,39 @@ public class ABMCReservas extends JFrame {
 	private Reserva mapearDeForm(){
 		Reserva r=new Reserva();
 		
-		r.setEstado("activo");
+		r.setEstado(true);
 		if (cboElemento.getSelectedIndex() != -1){
 			r.setElemento((Elemento)cboElemento.getSelectedItem());
 		}
+		r.setDetalle(textAreaDetalle.getText());
+		java.sql.Date date = new java.sql.Date(dateChooser.getDate().getTime());
+		r.setFecha(date);
+		
+		
+		//r.setHora(timePicker.getTime());
+		
 		//TODO: obtener la persona de la variable de sesión
 		//r.setPersona(persona);
-		
-		
-		
+				
 		return r;
 	}
 	
 	/*public void showPersona(Persona p){
 		this.mapearAForm(p);
 	}*/
+	
+	private void reservarClick(){
+		Reserva r= this.mapearDeForm();
+		try{
+			ctrl.add(r);
+			JOptionPane.showMessageDialog(contentPane, "Nueva reserva agregada exitosamente.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+			
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(contentPane, "No se pudo agregar reserva", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+		}
+	;
+	}
+	
 	
 	private void seleccionarTipoElementoClick(){
 		cargarListaElementos(this.mapearDeFormTipoElemento());
@@ -253,11 +255,8 @@ public class ABMCReservas extends JFrame {
 		try {
 			this.cboTipoElemento.setModel(new DefaultComboBoxModel(this.ctrl.getTipoElementos().toArray()));
 			this.cboTipoElemento.setSelectedIndex(-1);
-			//TODO: cargar los elementos una vez seleccionado el tipo de elemento
-			this.cboElemento.setModel(new DefaultComboBoxModel(this.ctrl.getElementos().toArray()));
-			this.cboElemento.setSelectedIndex(-1);
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, "Error recuperando Categorias");
+			JOptionPane.showMessageDialog(this, "Error recuperando Tipo de Elementos");
 		}
 	}
 	
@@ -266,7 +265,7 @@ public class ABMCReservas extends JFrame {
 			this.cboElemento.setModel(new DefaultComboBoxModel(this.ctrl.getByTipoElemento(te).toArray()));
 			this.cboElemento.setSelectedIndex(-1);
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, "Error recuperando Categorias");
+			JOptionPane.showMessageDialog(this, "Error recuperando Elementos");
 		}
 	}
 	
