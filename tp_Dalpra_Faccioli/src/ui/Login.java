@@ -18,6 +18,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import data.DataPersona;
 import entity.Persona;
+import entity.CurrentUser;
 
 public class Login extends JFrame {
 
@@ -28,18 +29,20 @@ public class Login extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	/*public static void main(String[] args) {
+	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					
 					Login frame = new Login();
 					frame.setVisible(true);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
-	}*/
+	}
 
 	/**
 	 * Create the frame.
@@ -95,7 +98,7 @@ public class Login extends JFrame {
 		String usuario= txtUsuario.getText();
 		String pass= String.valueOf(txtContraseña.getPassword());
 		
-		//TODO: guardar en variable de sesión
+				
 		DataPersona login= new DataPersona();
 		Persona p= new Persona();
 		p.setUsuario(usuario);
@@ -105,8 +108,18 @@ public class Login extends JFrame {
 		try {
 			per = login.obtenerUsuario(p);
 			if(per!=null){
+				if(per.isHabilitado()==true){
+				CurrentUser.getSingletonInstance().setUsuario(per);
 				JOptionPane.showMessageDialog(contentPane, "Bienvenido, "+per.getNombre());
+				
 				this.dispose();
+				Main window = new Main();
+				window.frame.setVisible(true);
+				window.visualizarBotones();
+				}else{
+					JOptionPane.showMessageDialog(contentPane, "Usted está habilitado para ingresar al sistema. Contacte con un Administrador.", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+				
 			}else{
 				JOptionPane.showMessageDialog(contentPane, "Datos inválidos", "Error", JOptionPane.ERROR_MESSAGE);
 		} }
@@ -117,7 +130,7 @@ public class Login extends JFrame {
 		
 	}
 
-	protected void salir() {
+	private void salir() {
 		System.exit(0);
 		
 	}
