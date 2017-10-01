@@ -12,6 +12,9 @@ import java.awt.Color;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
+
+import entity.CurrentUser;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.FlowLayout;
@@ -33,15 +36,13 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class Main {
 
-	private JFrame frame;
-	private JButton btnClientes;
-	private JButton btnReservas;
-	private JButton btnMantenimientoTipoEle;
+	protected JFrame frame;
+	private JButton btnClientes, btnMantenimientoEle, btnReservas, btnMantenimientoTipoEle;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -54,7 +55,7 @@ public class Main {
 				}
 			}
 		});
-	}
+	}*/
 
 	/**
 	 * Create the application.
@@ -66,12 +67,13 @@ public class Main {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	protected void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 604, 401);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		btnClientes = new JButton("Clientes");
+		btnClientes.setVisible(false);
 		btnClientes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ABMCClientes cli= new ABMCClientes();
@@ -95,6 +97,7 @@ public class Main {
 		});
 		
 		btnMantenimientoTipoEle = new JButton("Mantenimiento tipo elementos");
+		btnMantenimientoTipoEle.setVisible(false);
 		btnMantenimientoTipoEle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
@@ -107,7 +110,8 @@ public class Main {
 			}
 		});
 		
-		JButton btnMantenimientoEle = new JButton("Mantenimiento Elementos");
+		btnMantenimientoEle = new JButton("Mantenimiento Elementos");
+		btnMantenimientoEle.setVisible(false);
 		btnMantenimientoEle.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -143,5 +147,18 @@ public class Main {
 					.addContainerGap(56, Short.MAX_VALUE))
 		);
 		frame.getContentPane().setLayout(groupLayout);
+		
+	
+	}
+	
+	
+
+protected void visualizarBotones() {
+		if(CurrentUser.getCurrentUser().getUsuario().getCategoria().getId()==1){
+			this.btnMantenimientoTipoEle.setVisible(true);
+			this.btnMantenimientoEle.setVisible(true);
+			this.btnClientes.setVisible(true);
+		}
+		
 	}
 }

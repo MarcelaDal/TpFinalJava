@@ -10,7 +10,11 @@ public class Reserva {
 	private Date fecha;
 	private Time hora;
 	private String detalle;
+<<<<<<< HEAD
 	private Boolean estado;
+=======
+	private boolean estado;
+>>>>>>> refs/remotes/origin/master
 	private Persona persona;
 	private Elemento elemento;
 
@@ -39,10 +43,18 @@ public class Reserva {
 	public void setDetalle(String detalle) {
 		this.detalle = detalle;
 	}
+<<<<<<< HEAD
 	public Boolean getEstado() {
+=======
+	public boolean getEstado() {
+>>>>>>> refs/remotes/origin/master
 		return estado;
 	}
+<<<<<<< HEAD
 	public void setEstado(Boolean estado) {
+=======
+	public void setEstado(boolean estado) {
+>>>>>>> refs/remotes/origin/master
 		this.estado = estado;
 	}
 	public Persona getPersona() {

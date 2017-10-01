@@ -14,7 +14,9 @@ import javax.swing.border.TitledBorder;
 import controlers.CtrlABMCReservas;
 import entity.Reserva;
 import entity.TipoElementos;
+import entity.CurrentUser;
 import entity.Elemento;
+import entity.Persona;
 
 import javax.swing.SwingConstants;
 import java.awt.event.MouseAdapter;
@@ -119,7 +121,7 @@ public class ABMCReservas extends JFrame {
 				reservarClick();
 			}
 		});
-		btnConfirmarReserva.setBounds(72, 322, 192, 34);
+		btnConfirmarReserva.setBounds(72, 341, 192, 34);
 		
 		JButton btnListado = new JButton("Listado");
 		btnListado.addMouseListener(new MouseAdapter() {
@@ -128,13 +130,13 @@ public class ABMCReservas extends JFrame {
 				mnuListadoReservasClick();
 			}
 		});
-		btnListado.setBounds(381, 322, 136, 34);
+		btnListado.setBounds(381, 341, 136, 34);
 		panelAgregarClientes.setLayout(null);
 		panelAgregarClientes.add(btnConfirmarReserva);
 		panelAgregarClientes.add(btnListado);
 		panelAgregarClientes.add(btnVaciarCampos);
 		
-		JLabel lblFecha = new JLabel("Fecha");
+		JLabel lblFecha = new JLabel("Fecha*");
 		lblFecha.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblFecha.setBounds(104, 160, 68, 14);
 		panelAgregarClientes.add(lblFecha);
@@ -149,7 +151,7 @@ public class ABMCReservas extends JFrame {
 		panelAgregarClientes.add(dateChooserReserva);
 		dateChooserReserva.setMinSelectableDate(new Date());
 		
-		JLabel lblHora = new JLabel("Hora");
+		JLabel lblHora = new JLabel("Hora*");
 		lblHora.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblHora.setBounds(104, 197, 68, 14);
 		panelAgregarClientes.add(lblHora);
@@ -158,7 +160,7 @@ public class ABMCReservas extends JFrame {
 		table.setBounds(258, 268, 62, -9);
 		panelAgregarClientes.add(table);
 		
-		JLabel lblTipoElemento = new JLabel("Tipo Elemento");
+		JLabel lblTipoElemento = new JLabel("Tipo Elemento*");
 		lblTipoElemento.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblTipoElemento.setBounds(72, 68, 100, 14);
 		panelAgregarClientes.add(lblTipoElemento);
@@ -172,7 +174,7 @@ public class ABMCReservas extends JFrame {
 		cboTipoElemento.setBounds(182, 65, 142, 20);
 		panelAgregarClientes.add(cboTipoElemento);
 		
-		JLabel lblElemento = new JLabel("Elemento");
+		JLabel lblElemento = new JLabel("Elemento*");
 		lblElemento.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblElemento.setBounds(72, 112, 100, 14);
 		panelAgregarClientes.add(lblElemento);
@@ -199,6 +201,10 @@ public class ABMCReservas extends JFrame {
 		//timePicker.setBounds(182, 193, 142, 23);
 		//panelAgregarClientes.add(timePicker);
 		
+		JLabel lblCamposRequeridos = new JLabel("(*) Campos Requeridos");
+		lblCamposRequeridos.setBounds(182, 300, 149, 14);
+		panelAgregarClientes.add(lblCamposRequeridos);
+		
 		contentPane.setLayout(gl_contentPane);
 		cargarListaTipoElementos();
 	}
@@ -215,15 +221,21 @@ public class ABMCReservas extends JFrame {
 			r.setElemento((Elemento)cboElemento.getSelectedItem());
 		}
 		r.setDetalle(textAreaDetalle.getText());
+<<<<<<< HEAD
 		java.sql.Date date = new java.sql.Date(dateChooserReserva.getDate().getTime());
 		r.setFecha(date);
+=======
+		java.sql.Date date = new java.sql.Date(dateChooser.getDate().getTime());
+>>>>>>> refs/remotes/origin/master
 		
-		
+		//TODO: set fecha y hora
+		//r.setFecha(date);
 		//r.setHora(timePicker.getTime());
+	
+		Persona per = CurrentUser.getCurrentUser().getUsuario();
+		r.setPersona(per);
 		
-		//TODO: obtener la persona de la variable de sesión
-		//r.setPersona(persona);
-				
+		
 		return r;
 	}
 	
@@ -232,7 +244,9 @@ public class ABMCReservas extends JFrame {
 	}*/
 	
 	private void reservarClick(){
-		Reserva r= this.mapearDeForm();
+		if(validaCampos()){
+			Reserva r= this.mapearDeForm();
+			
 		try{
 			ctrl.add(r);
 			JOptionPane.showMessageDialog(contentPane, "Nueva reserva agregada exitosamente.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
@@ -240,7 +254,10 @@ public class ABMCReservas extends JFrame {
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(contentPane, "No se pudo agregar reserva", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
 		}
-	;
+		}
+		else{
+			JOptionPane.showMessageDialog(contentPane, "Complete los campos requeridos para poder continuar", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+		}
 	}
 	
 	
@@ -281,5 +298,16 @@ public class ABMCReservas extends JFrame {
 		ListadoReservas lr= new ListadoReservas();
 		lr.setVisible(true);
 		
+	}
+	
+	private boolean validaCampos(){
+		if((this.cboElemento.getSelectedItem()!=null)&&
+				(this.cboTipoElemento.getSelectedItem()!=null)&&
+				(this.dateChooser.getDate()!=null)&&
+				(this.timePicker.getTime()!=null)){
+		return true;
+		}else{
+			return false;
+		}
 	}
 }
