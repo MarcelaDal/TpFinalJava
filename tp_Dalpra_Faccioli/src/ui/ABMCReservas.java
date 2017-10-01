@@ -34,11 +34,13 @@ import javax.swing.JTextArea;
 import java.awt.Font;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
-import com.github.lgooddatepicker.components.TimePicker;
+//import com.github.lgooddatepicker.components.TimePicker;
 import java.awt.ComponentOrientation;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class ABMCReservas extends JFrame {
 
@@ -49,8 +51,8 @@ public class ABMCReservas extends JFrame {
 	private JTable table;
 	private JComboBox cboTipoElemento, cboElemento;
 	private JTextArea textAreaDetalle;
-	private JDateChooser dateChooser;
-	private TimePicker timePicker;
+	private JDateChooser dateChooserReserva;
+	//private TimePicker timePicker;
 
 	/**
 	 * Launch the application.
@@ -137,10 +139,15 @@ public class ABMCReservas extends JFrame {
 		lblFecha.setBounds(104, 160, 68, 14);
 		panelAgregarClientes.add(lblFecha);
 		
-		dateChooser = new JDateChooser("yyyy/MM/dd", "####/##/##", '_');
-		dateChooser.setBounds(182, 154, 142, 20);
-		panelAgregarClientes.add(dateChooser);
-		dateChooser.setMinSelectableDate(new Date());
+		dateChooserReserva = new JDateChooser("dd/MM/yyyy", "##/##/####", '_');
+		dateChooserReserva.setDateFormatString("dd/MM/yyyy");
+		dateChooserReserva.getCalendarButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		dateChooserReserva.setBounds(182, 154, 142, 20);
+		panelAgregarClientes.add(dateChooserReserva);
+		dateChooserReserva.setMinSelectableDate(new Date());
 		
 		JLabel lblHora = new JLabel("Hora");
 		lblHora.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -188,9 +195,9 @@ public class ABMCReservas extends JFrame {
 		textAreaDetalle.setBounds(182, 235, 211, 47);
 		panelAgregarClientes.add(textAreaDetalle);
 		
-		timePicker = new TimePicker();
-		timePicker.setBounds(182, 193, 142, 23);
-		panelAgregarClientes.add(timePicker);
+		//timePicker = new TimePicker();
+		//timePicker.setBounds(182, 193, 142, 23);
+		//panelAgregarClientes.add(timePicker);
 		
 		contentPane.setLayout(gl_contentPane);
 		cargarListaTipoElementos();
@@ -208,7 +215,7 @@ public class ABMCReservas extends JFrame {
 			r.setElemento((Elemento)cboElemento.getSelectedItem());
 		}
 		r.setDetalle(textAreaDetalle.getText());
-		java.sql.Date date = new java.sql.Date(dateChooser.getDate().getTime());
+		java.sql.Date date = new java.sql.Date(dateChooserReserva.getDate().getTime());
 		r.setFecha(date);
 		
 		

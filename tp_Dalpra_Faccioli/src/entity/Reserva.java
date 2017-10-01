@@ -1,17 +1,19 @@
 package entity;
 
+
+
 import java.sql.Time;
-import java.sql.Date;
+import java.util.Date;
 
 public class Reserva {
 	private int id;
 	private Date fecha;
 	private Time hora;
 	private String detalle;
-	private String estado;
+	private Boolean estado;
 	private Persona persona;
 	private Elemento elemento;
-	
+
 	
 	public int getId() {
 		return id;
@@ -22,8 +24,8 @@ public class Reserva {
 	public Date getFecha() {
 		return fecha;
 	}
-	public void setFecha(Date fecha) {
-		this.fecha = fecha;
+	public void setFecha(Date date) {
+		this.fecha = date;
 	}
 	public Time getHora() {
 		return hora;
@@ -37,10 +39,10 @@ public class Reserva {
 	public void setDetalle(String detalle) {
 		this.detalle = detalle;
 	}
-	public String getEstado() {
+	public Boolean getEstado() {
 		return estado;
 	}
-	public void setEstado(String estado) {
+	public void setEstado(Boolean estado) {
 		this.estado = estado;
 	}
 	public Persona getPersona() {
