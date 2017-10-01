@@ -64,7 +64,7 @@ public class ABMCReservas extends JFrame {
 			public void run() {
 				try {
 					ABMCClientes frame = new ABMCClientes();
-					frame.setVisible(true);
+					frame.setVisible(truej
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -221,12 +221,12 @@ public class ABMCReservas extends JFrame {
 			r.setElemento((Elemento)cboElemento.getSelectedItem());
 		}
 		r.setDetalle(textAreaDetalle.getText());
-<<<<<<< HEAD
+
 		java.sql.Date date = new java.sql.Date(dateChooserReserva.getDate().getTime());
 		r.setFecha(date);
-=======
-		java.sql.Date date = new java.sql.Date(dateChooser.getDate().getTime());
->>>>>>> refs/remotes/origin/master
+
+		
+
 		
 		//TODO: set fecha y hora
 		//r.setFecha(date);
@@ -303,8 +303,9 @@ public class ABMCReservas extends JFrame {
 	private boolean validaCampos(){
 		if((this.cboElemento.getSelectedItem()!=null)&&
 				(this.cboTipoElemento.getSelectedItem()!=null)&&
-				(this.dateChooser.getDate()!=null)&&
-				(this.timePicker.getTime()!=null)){
+				(this.dateChooserReserva.getDate()!=null))
+				//&& (this.timePicker.getTime()!=null))
+				{
 		return true;
 		}else{
 			return false;
