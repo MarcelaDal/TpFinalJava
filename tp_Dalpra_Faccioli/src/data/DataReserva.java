@@ -19,16 +19,17 @@ public class DataReserva{
 		try {
 			stmt=FactoryConexion.getInstancia().getConn()
 					.prepareStatement(
-					"insert into reservas (detalle, estado, id_persona, id_elemento) values (?,?,?,?)",
+					"insert into reservas (detalle, estado, id_persona, id_elemento, fecha) values (?,?,?,?,?)",
 							
 							PreparedStatement.RETURN_GENERATED_KEYS
 					);
 			
-			//stmt.setDate(1, (Date)r.getFecha());
+			
 			stmt.setString(1, r.getDetalle());
 			stmt.setBoolean(2, r.getEstado());
 			stmt.setInt(3, r.getPersona().getId());
 			stmt.setInt(4, r.getElemento().getId());
+			stmt.setDate(5, (Date)r.getFecha());
 			stmt.executeUpdate();
 			keyResultSet=stmt.getGeneratedKeys();
 			if(keyResultSet!=null && keyResultSet.next()){

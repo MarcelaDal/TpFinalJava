@@ -221,10 +221,11 @@ public class ABMCReservas extends JFrame {
 			r.setElemento((Elemento)cboElemento.getSelectedItem());
 		}
 		r.setDetalle(textAreaDetalle.getText());
-
+		
 		java.sql.Date date = new java.sql.Date(dateChooserReserva.getDate().getTime());
 		r.setFecha(date);
-
+		
+	
 		
 
 		

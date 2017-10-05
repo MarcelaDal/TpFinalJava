@@ -16,8 +16,7 @@ public class DataElementos{
 		PreparedStatement stmt=null;
 		ResultSet keyResultSet=null;
 		try {
-			stmt=FactoryConexion.getInstancia().getConn()
-					.prepareStatement(
+			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(
 					"insert into elementos (nombre, id_tipo_elemento) values (?,?)",
 					PreparedStatement.RETURN_GENERATED_KEYS
 					);
