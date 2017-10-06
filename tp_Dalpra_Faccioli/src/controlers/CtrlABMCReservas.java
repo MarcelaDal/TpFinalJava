@@ -7,6 +7,7 @@ import data.DataPersona;
 import data.DataReserva;
 import data.DataTipoElementos;
 import entity.Elemento;
+import entity.Persona;
 import entity.Reserva;
 import entity.TipoElementos;
 
@@ -49,7 +50,9 @@ public class CtrlABMCReservas {
 		ele.setNombre(nombre);
 		return getByNombre(ele);
 	}*/
-	
+	public ArrayList<Reserva> getByUsuario(Persona p) throws Exception{
+		return dataReserva.getByUsuario(p);
+	}
 		
 	public ArrayList<Reserva> getAll()throws Exception{
 		return dataReserva.getAll();

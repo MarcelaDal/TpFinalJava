@@ -19,16 +19,17 @@ public class DataReserva{
 		try {
 			stmt=FactoryConexion.getInstancia().getConn()
 					.prepareStatement(
-					"insert into reservas (detalle, estado, id_persona, id_elemento) values (?,?,?,?)",
+					"insert into reservas (detalle, estado, id_persona, id_elemento, fecha) values (?,?,?,?,?)",
 							
 							PreparedStatement.RETURN_GENERATED_KEYS
 					);
 			
-			//stmt.setDate(1, (Date)r.getFecha());
+			
 			stmt.setString(1, r.getDetalle());
 			stmt.setBoolean(2, r.getEstado());
 			stmt.setInt(3, r.getPersona().getId());
 			stmt.setInt(4, r.getElemento().getId());
+			stmt.setDate(5, (Date)r.getFecha());
 			stmt.executeUpdate();
 			keyResultSet=stmt.getGeneratedKeys();
 			if(keyResultSet!=null && keyResultSet.next()){
@@ -182,6 +183,57 @@ public class DataReserva{
 		
 	}
 
+
+	public ArrayList<Reserva> getByUsuario(Persona per) throws Exception{
+		Reserva r= null;
+		PreparedStatement stmt=null;
+		ResultSet rs=null;
+		ArrayList<Reserva> reservas= new ArrayList<Reserva>();
+		try {
+			stmt=FactoryConexion.getInstancia().getConn()
+					.prepareStatement(
+					"select * from reservas r inner join persona p on r.id_persona=p.id inner join elementos e on r.id_elemento= e.id where p.id=?",
+					PreparedStatement.RETURN_GENERATED_KEYS
+					);
+			
+			stmt.setString(1, per.getDni());	
+			rs=stmt.executeQuery();
+			if(rs!=null && rs.next()){
+					r=new Reserva();
+					r.setElemento(new Elemento());
+					r.setPersona(new Persona());
+					r.setId(rs.getInt("r.id"));
+					r.getPersona().setNombre(rs.getString("p.nombre"));
+					r.getPersona().setApellido(rs.getString("p.apellido"));
+					r.getElemento().setNombre(rs.getString("e.nombre"));
+					r.setFecha(rs.getDate("r.fecha"));
+					r.setHora(rs.getTime("r.hora"));
+					r.setEstado(rs.getBoolean("r.estado"));					
+					
+					reservas.add(r);
+			}
+			
+		} catch (SQLException e) {
+			
+			throw e;
+		} catch (AppDataException ade){
+			
+			throw ade;
+		}
+		
+
+		try {
+			if(rs!=null) rs.close();
+			if(stmt!=null) stmt.close();
+			FactoryConexion.getInstancia().releaseConn();
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		
+		return reservas;
+		
+	}
 
 		
 	

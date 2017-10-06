@@ -16,6 +16,7 @@ import javax.swing.border.TitledBorder;
 import controlers.CtrlABMCClientes;
 import entity.Persona;
 import entity.Categoria;
+import entity.CurrentUser;
 
 import javax.swing.SwingConstants;
 import javax.swing.JPasswordField;
@@ -42,12 +43,13 @@ public class ABMCClientes extends JFrame {
 	private JTextField txtDni;
 	private JTextField txtNombre;
 	private JTextField txtApellido;
-	private JCheckBox chkHabilitado;
+	private JCheckBox chkHabilitado, chkVer;
 	private JComboBox cboCategoria;
 	private JPanel panelAgregarClientes;
 	private JTextField txtId;
-	private JLabel lblId;
+	private JLabel lblId, lblContrasenia, lblCategoria;
 	private JPasswordField txtContrasenia;
+	private JButton btnModificarDatos, btnAgregarCliente, btnBorrar, btnBuscar, btnListado, btnVaciarCampos;
 
 
 	/**
@@ -66,14 +68,14 @@ public class ABMCClientes extends JFrame {
 		
 		txtId = new JTextField();
 		txtId.setEditable(false);
-		txtId.setBounds(252, 16, 100, 20);
+		txtId.setBounds(176, 56, 100, 20);
 		txtId.setColumns(10);
 		
 		lblId = new JLabel("ID");
-		lblId.setBounds(208, 19, 26, 14);
+		lblId.setBounds(132, 59, 26, 14);
 		lblId.setHorizontalAlignment(SwingConstants.RIGHT);
 		
-		JButton btnVaciarCampos = new JButton("Vaciar campos");
+		btnVaciarCampos = new JButton("Vaciar campos");
 		btnVaciarCampos.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -92,6 +94,7 @@ public class ABMCClientes extends JFrame {
 		btnVaciarCampos.setBounds(550, 16, 129, 21);
 		btnVaciarCampos.setFocusCycleRoot(true);
 		btnVaciarCampos.setFocusPainted(false);
+		btnVaciarCampos.setVisible(false);
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -107,15 +110,16 @@ public class ABMCClientes extends JFrame {
 					.addContainerGap())
 		);
 		
-		JLabel lblDni = new JLabel("DNI");
-		lblDni.setBounds(208, 49, 26, 14);
+		JLabel lblDni = new JLabel("DNI*");
+		lblDni.setBounds(118, 89, 40, 14);
 		lblDni.setHorizontalAlignment(SwingConstants.RIGHT);
 		
 		txtDni = new JTextField();
-		txtDni.setBounds(252, 46, 100, 20);
+		txtDni.setBounds(176, 86, 100, 20);
 		txtDni.setColumns(10);
 		
-		JButton btnBuscar = new JButton("Buscar");
+		btnBuscar = new JButton("Buscar");
+		btnBuscar.setVisible(false);
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -126,37 +130,41 @@ public class ABMCClientes extends JFrame {
 				buscarClick();
 			}
 		});
-		btnBuscar.setBounds(370, 45, 100, 23);
+		btnBuscar.setBounds(294, 85, 100, 23);
 		
-		JLabel lblNombre = new JLabel("Nombre");
-		lblNombre.setBounds(166, 86, 68, 14);
+		JLabel lblNombre = new JLabel("Nombre*");
+		lblNombre.setBounds(90, 126, 68, 14);
 		lblNombre.setHorizontalAlignment(SwingConstants.RIGHT);
 		
 		txtNombre = new JTextField();
-		txtNombre.setBounds(252, 79, 100, 20);
+		txtNombre.setBounds(176, 119, 100, 20);
 		txtNombre.setColumns(10);
 		
-		JLabel lblApellido = new JLabel("Apellido");
-		lblApellido.setBounds(166, 121, 68, 14);
+		JLabel lblApellido = new JLabel("Apellido*");
+		lblApellido.setBounds(90, 161, 68, 14);
 		lblApellido.setHorizontalAlignment(SwingConstants.RIGHT);
 		
 		txtApellido = new JTextField();
-		txtApellido.setBounds(252, 111, 100, 20);
+		txtApellido.setBounds(176, 158, 100, 20);
 		txtApellido.setColumns(10);
 		
-		JLabel lblCategoria = new JLabel("Categor\u00EDa");
-		lblCategoria.setBounds(166, 156, 68, 14);
+		lblCategoria = new JLabel("Categor\u00EDa*");
+		lblCategoria.setVisible(false);
+		lblCategoria.setBounds(79, 196, 79, 14);
 		lblCategoria.setHorizontalAlignment(SwingConstants.RIGHT);
 		
 		cboCategoria = new JComboBox();
-		cboCategoria.setBounds(252, 153, 100, 20);
+		cboCategoria.setVisible(false);
+		cboCategoria.setBounds(176, 193, 100, 20);
 		
 		chkHabilitado = new JCheckBox("Habilitado");
-		chkHabilitado.setBounds(252, 228, 100, 23);
-		chkHabilitado.setSelected(false);
+		chkHabilitado.setVisible(false);
+		chkHabilitado.setSelected(true);
+		chkHabilitado.setBounds(176, 267, 100, 23);
 		
-		JButton btnAgregarCliente = new JButton("Agregar Cliente");
-		btnAgregarCliente.setBounds(10, 288, 136, 34);
+		btnAgregarCliente = new JButton("Agregar Cliente");
+		btnAgregarCliente.setVisible(false);
+		btnAgregarCliente.setBounds(10, 338, 136, 34);
 		btnAgregarCliente.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -169,12 +177,12 @@ public class ABMCClientes extends JFrame {
 			}
 		});
 		
-		JButton btnModificarDatos = new JButton("Modificar Datos");
+		btnModificarDatos = new JButton("Modificar Datos");
 		btnModificarDatos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		btnModificarDatos.setBounds(163, 288, 136, 34);
+		btnModificarDatos.setBounds(163, 338, 136, 34);
 		btnModificarDatos.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -182,8 +190,9 @@ public class ABMCClientes extends JFrame {
 			}
 		});
 		
-		JButton btnBorrar = new JButton("Borrar Cliente");
-		btnBorrar.setBounds(321, 288, 136, 34);
+		btnBorrar = new JButton("Borrar Cliente");
+		btnBorrar.setVisible(false);
+		btnBorrar.setBounds(321, 338, 136, 34);
 		btnBorrar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -212,7 +221,8 @@ public class ABMCClientes extends JFrame {
 		panelAgregarClientes.add(btnBorrar);
 		panelAgregarClientes.add(btnVaciarCampos);
 		
-		JButton btnListado = new JButton("Listado");
+		btnListado = new JButton("Listado");
+		btnListado.setVisible(false);
 		
 		btnListado.addMouseListener(new MouseAdapter() {
 			@Override
@@ -221,27 +231,69 @@ public class ABMCClientes extends JFrame {
 			}
 		});
 		
-		btnListado.setBounds(551, 288, 136, 34);
+		btnListado.setBounds(551, 338, 136, 34);
 		panelAgregarClientes.add(btnListado);
 		
-		JLabel lblContrasenia = new JLabel("Contrase\u00F1a");
+		lblContrasenia = new JLabel("Contrase\u00F1a*");
 		lblContrasenia.setVisible(false);
 		lblContrasenia.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblContrasenia.setBounds(166, 193, 68, 14);
+		lblContrasenia.setBounds(58, 233, 100, 14);
 		panelAgregarClientes.add(lblContrasenia);
 		
 		//TODO agregar funcionalidad para cambio de contraseña
 		txtContrasenia = new JPasswordField();
 		txtContrasenia.setVisible(false);
-		txtContrasenia.setBounds(252, 190, 100, 20);
+		//TODO eliminar linea de abajo
+		txtContrasenia.setText("hola");
+		txtContrasenia.setBounds(176, 230, 100, 20);
 		panelAgregarClientes.add(txtContrasenia);
+		
+		chkVer = new JCheckBox("Ver");
+		chkVer.setVisible(false);
+		chkVer.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				verPassword();
+			}
+		});
+		chkVer.setBounds(282, 229, 97, 23);
+		panelAgregarClientes.add(chkVer);
 		contentPane.setLayout(gl_contentPane);
 		cargarListas();
+		
+		visualizarBotones();
 	}
 	
 	
 	
 	
+	private void visualizarBotones() {
+		if(CurrentUser.getCurrentUser().getUsuario().getCategoria().getId()==1){
+			this.chkHabilitado.setVisible(true);
+			this.btnBuscar.setVisible(true);
+			this.btnAgregarCliente.setVisible(true);
+			this.btnBorrar.setVisible(true);
+			this.btnListado.setVisible(true);
+			this.txtContrasenia.setVisible(false);
+			this.lblContrasenia.setVisible(false);
+			this.chkVer.setVisible(false);
+			this.cboCategoria.setVisible(true);
+			this.lblCategoria.setVisible(true);
+			
+		}
+		if(CurrentUser.getCurrentUser().getUsuario().getCategoria().getId()!=1){
+			this.txtContrasenia.setVisible(true);
+			this.lblContrasenia.setVisible(true);
+			this.chkVer.setVisible(true);
+		}
+	}
+
+	protected void verPassword(){
+		if(this.chkVer.isSelected()){this.txtContrasenia.setEchoChar((char)0);}
+		if(this.chkVer.isSelected()==false){this.txtContrasenia.setEchoChar('•');}
+	}
+
+
 	protected void agregarClick() {
 		Persona p = this.mapearDeForm();
 		try{

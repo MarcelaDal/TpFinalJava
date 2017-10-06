@@ -73,7 +73,6 @@ public class Main {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		btnClientes = new JButton("Clientes");
-		btnClientes.setVisible(false);
 		btnClientes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ABMCClientes cli= new ABMCClientes();
@@ -157,7 +156,6 @@ protected void visualizarBotones() {
 		if(CurrentUser.getCurrentUser().getUsuario().getCategoria().getId()==1){
 			this.btnMantenimientoTipoEle.setVisible(true);
 			this.btnMantenimientoEle.setVisible(true);
-			this.btnClientes.setVisible(true);
 		}
 		
 	}
