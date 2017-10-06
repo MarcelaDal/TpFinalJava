@@ -76,6 +76,9 @@ public class Main {
 		btnClientes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ABMCClientes cli= new ABMCClientes();
+				if(CurrentUser.getCurrentUser().getUsuario().getCategoria().getId()!=1){
+					cli.showPersona(CurrentUser.getCurrentUser().getUsuario());
+				}
 				cli.setVisible(true);
 			}
 

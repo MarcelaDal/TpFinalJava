@@ -205,8 +205,7 @@ public class ABMCClientes extends JFrame {
 		//TODO agregar funcionalidad para cambio de contraseña
 		txtContrasenia = new JPasswordField();
 		txtContrasenia.setVisible(false);
-		//TODO eliminar linea de abajo
-		txtContrasenia.setText("hola");
+		
 		
 		chkVer = new JCheckBox("Ver");
 		chkVer.setVisible(false);
@@ -362,6 +361,7 @@ public class ABMCClientes extends JFrame {
 
 
 	protected void agregarClick() {
+		if(validaCampos()){
 		Persona p = this.mapearDeForm();
 		try{
 			ctrl.add(p);
@@ -371,7 +371,11 @@ public class ABMCClientes extends JFrame {
 			JOptionPane.showMessageDialog(this, e.getMessage());
 		}
 		this.txtId.setText(String.valueOf(p.getId()));
-		
+		}
+		else {
+			JOptionPane.showMessageDialog(contentPane, "Complete los campos requeridos para poder continuar", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+
+		}
 	}
 	
 	protected void borrarClick(){
@@ -383,11 +387,16 @@ public class ABMCClientes extends JFrame {
 	}
 	
 	protected void modificarClick(){
+		if(validaCampos()){
 		try{
 			ctrl.update(this.mapearDeForm());
 			JOptionPane.showMessageDialog(contentPane, "Modificación exitosa", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(contentPane, "No se ha podido realizar la modificación.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+		}}
+		else{
+			JOptionPane.showMessageDialog(contentPane, "Complete los campos requeridos para poder continuar", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+
 		}
 	}
 	
@@ -400,11 +409,12 @@ public class ABMCClientes extends JFrame {
 			this.cboCategoria.setSelectedItem(p.getCategoria());
 		}
 		this.txtId.setText(String.valueOf(p.getId()));
+		this.txtContrasenia.setText(p.getContrasenia());
 	}
 	
 	
 	protected void buscarClick() {
-		if(validaCampos()){			
+		if(validaCampoDni()){			
 			try {
 				this.mapearAForm(ctrl.getByDni(this.mapearDeForm()));
 				lblId.setVisible(true);
@@ -453,8 +463,16 @@ public class ABMCClientes extends JFrame {
 		lp.setVisible(true);
 		
 	}
-	private boolean validaCampos(){
+	private boolean validaCampoDni(){
 		if(!this.txtDni.getText().equals("")) {return true;}
+		else {return false;}
+	}
+	private boolean validaCampos(){
+		if((!this.txtDni.getText().equals(""))&&
+			(!this.txtNombre.getText().equals(""))&&
+			(!this.txtApellido.getText().equals(""))&&
+			(!this.txtContrasenia.getPassword().equals(""))&&
+			(this.cboCategoria.getSelectedItem()!=null)) {return true;}
 		else {return false;}
 	}
 }
