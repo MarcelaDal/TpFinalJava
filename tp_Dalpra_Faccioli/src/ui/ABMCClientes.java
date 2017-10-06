@@ -68,11 +68,9 @@ public class ABMCClientes extends JFrame {
 		
 		txtId = new JTextField();
 		txtId.setEditable(false);
-		txtId.setBounds(176, 56, 100, 20);
 		txtId.setColumns(10);
 		
 		lblId = new JLabel("ID");
-		lblId.setBounds(132, 59, 26, 14);
 		lblId.setHorizontalAlignment(SwingConstants.RIGHT);
 		
 		btnVaciarCampos = new JButton("Vaciar campos");
@@ -91,14 +89,13 @@ public class ABMCClientes extends JFrame {
 				
 			}
 		});
-		btnVaciarCampos.setBounds(550, 16, 129, 21);
 		btnVaciarCampos.setFocusCycleRoot(true);
 		btnVaciarCampos.setFocusPainted(false);
 		btnVaciarCampos.setVisible(false);
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
+				.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
 					.addGap(5)
 					.addComponent(panelAgregarClientes, GroupLayout.DEFAULT_SIZE, 697, Short.MAX_VALUE)
 					.addContainerGap())
@@ -111,11 +108,9 @@ public class ABMCClientes extends JFrame {
 		);
 		
 		JLabel lblDni = new JLabel("DNI*");
-		lblDni.setBounds(118, 89, 40, 14);
 		lblDni.setHorizontalAlignment(SwingConstants.RIGHT);
 		
 		txtDni = new JTextField();
-		txtDni.setBounds(176, 86, 100, 20);
 		txtDni.setColumns(10);
 		
 		btnBuscar = new JButton("Buscar");
@@ -130,41 +125,32 @@ public class ABMCClientes extends JFrame {
 				buscarClick();
 			}
 		});
-		btnBuscar.setBounds(294, 85, 100, 23);
 		
 		JLabel lblNombre = new JLabel("Nombre*");
-		lblNombre.setBounds(90, 126, 68, 14);
 		lblNombre.setHorizontalAlignment(SwingConstants.RIGHT);
 		
 		txtNombre = new JTextField();
-		txtNombre.setBounds(176, 119, 100, 20);
 		txtNombre.setColumns(10);
 		
 		JLabel lblApellido = new JLabel("Apellido*");
-		lblApellido.setBounds(90, 161, 68, 14);
 		lblApellido.setHorizontalAlignment(SwingConstants.RIGHT);
 		
 		txtApellido = new JTextField();
-		txtApellido.setBounds(176, 158, 100, 20);
 		txtApellido.setColumns(10);
 		
 		lblCategoria = new JLabel("Categor\u00EDa*");
 		lblCategoria.setVisible(false);
-		lblCategoria.setBounds(79, 196, 79, 14);
 		lblCategoria.setHorizontalAlignment(SwingConstants.RIGHT);
 		
 		cboCategoria = new JComboBox();
 		cboCategoria.setVisible(false);
-		cboCategoria.setBounds(176, 193, 100, 20);
 		
 		chkHabilitado = new JCheckBox("Habilitado");
 		chkHabilitado.setVisible(false);
 		chkHabilitado.setSelected(true);
-		chkHabilitado.setBounds(176, 267, 100, 23);
 		
 		btnAgregarCliente = new JButton("Agregar Cliente");
 		btnAgregarCliente.setVisible(false);
-		btnAgregarCliente.setBounds(10, 338, 136, 34);
 		btnAgregarCliente.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -182,7 +168,6 @@ public class ABMCClientes extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		btnModificarDatos.setBounds(163, 338, 136, 34);
 		btnModificarDatos.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -192,7 +177,6 @@ public class ABMCClientes extends JFrame {
 		
 		btnBorrar = new JButton("Borrar Cliente");
 		btnBorrar.setVisible(false);
-		btnBorrar.setBounds(321, 338, 136, 34);
 		btnBorrar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -203,23 +187,6 @@ public class ABMCClientes extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		panelAgregarClientes.setLayout(null);
-		panelAgregarClientes.add(lblId);
-		panelAgregarClientes.add(txtId);
-		panelAgregarClientes.add(lblDni);
-		panelAgregarClientes.add(txtDni);
-		panelAgregarClientes.add(btnBuscar);
-		panelAgregarClientes.add(lblNombre);
-		panelAgregarClientes.add(txtNombre);
-		panelAgregarClientes.add(lblApellido);
-		panelAgregarClientes.add(txtApellido);
-		panelAgregarClientes.add(lblCategoria);
-		panelAgregarClientes.add(cboCategoria);
-		panelAgregarClientes.add(chkHabilitado);
-		panelAgregarClientes.add(btnAgregarCliente);
-		panelAgregarClientes.add(btnModificarDatos);
-		panelAgregarClientes.add(btnBorrar);
-		panelAgregarClientes.add(btnVaciarCampos);
 		
 		btnListado = new JButton("Listado");
 		btnListado.setVisible(false);
@@ -231,22 +198,15 @@ public class ABMCClientes extends JFrame {
 			}
 		});
 		
-		btnListado.setBounds(551, 338, 136, 34);
-		panelAgregarClientes.add(btnListado);
-		
 		lblContrasenia = new JLabel("Contrase\u00F1a*");
 		lblContrasenia.setVisible(false);
 		lblContrasenia.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblContrasenia.setBounds(58, 233, 100, 14);
-		panelAgregarClientes.add(lblContrasenia);
 		
 		//TODO agregar funcionalidad para cambio de contraseña
 		txtContrasenia = new JPasswordField();
 		txtContrasenia.setVisible(false);
 		//TODO eliminar linea de abajo
 		txtContrasenia.setText("hola");
-		txtContrasenia.setBounds(176, 230, 100, 20);
-		panelAgregarClientes.add(txtContrasenia);
 		
 		chkVer = new JCheckBox("Ver");
 		chkVer.setVisible(false);
@@ -256,8 +216,115 @@ public class ABMCClientes extends JFrame {
 				verPassword();
 			}
 		});
-		chkVer.setBounds(282, 229, 97, 23);
-		panelAgregarClientes.add(chkVer);
+		GroupLayout gl_panelAgregarClientes = new GroupLayout(panelAgregarClientes);
+		gl_panelAgregarClientes.setHorizontalGroup(
+			gl_panelAgregarClientes.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelAgregarClientes.createSequentialGroup()
+					.addGap(544)
+					.addComponent(btnVaciarCampos, GroupLayout.PREFERRED_SIZE, 129, GroupLayout.PREFERRED_SIZE))
+				.addGroup(gl_panelAgregarClientes.createSequentialGroup()
+					.addGap(126)
+					.addComponent(lblId, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(txtId, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
+				.addGroup(gl_panelAgregarClientes.createSequentialGroup()
+					.addGap(112)
+					.addComponent(lblDni, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(txtDni, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(btnBuscar, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
+				.addGroup(gl_panelAgregarClientes.createSequentialGroup()
+					.addGap(84)
+					.addComponent(lblNombre, GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(txtNombre, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
+				.addGroup(gl_panelAgregarClientes.createSequentialGroup()
+					.addGap(84)
+					.addComponent(lblApellido, GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(txtApellido, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
+				.addGroup(gl_panelAgregarClientes.createSequentialGroup()
+					.addGap(73)
+					.addComponent(lblCategoria, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(cboCategoria, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
+				.addGroup(gl_panelAgregarClientes.createSequentialGroup()
+					.addGap(52)
+					.addComponent(lblContrasenia, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(txtContrasenia, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+					.addGap(6)
+					.addComponent(chkVer, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE))
+				.addGroup(gl_panelAgregarClientes.createSequentialGroup()
+					.addGap(170)
+					.addComponent(chkHabilitado, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
+				.addGroup(gl_panelAgregarClientes.createSequentialGroup()
+					.addGap(4)
+					.addComponent(btnAgregarCliente, GroupLayout.PREFERRED_SIZE, 136, GroupLayout.PREFERRED_SIZE)
+					.addGap(17)
+					.addComponent(btnModificarDatos, GroupLayout.PREFERRED_SIZE, 136, GroupLayout.PREFERRED_SIZE)
+					.addGap(22)
+					.addComponent(btnBorrar, GroupLayout.PREFERRED_SIZE, 136, GroupLayout.PREFERRED_SIZE)
+					.addGap(94)
+					.addComponent(btnListado, GroupLayout.PREFERRED_SIZE, 136, GroupLayout.PREFERRED_SIZE))
+		);
+		gl_panelAgregarClientes.setVerticalGroup(
+			gl_panelAgregarClientes.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelAgregarClientes.createSequentialGroup()
+					.addComponent(btnVaciarCampos, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
+					.addGap(19)
+					.addGroup(gl_panelAgregarClientes.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panelAgregarClientes.createSequentialGroup()
+							.addGap(3)
+							.addComponent(lblId))
+						.addComponent(txtId, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(9)
+					.addGroup(gl_panelAgregarClientes.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panelAgregarClientes.createSequentialGroup()
+							.addGap(4)
+							.addComponent(lblDni))
+						.addGroup(gl_panelAgregarClientes.createSequentialGroup()
+							.addGap(1)
+							.addComponent(txtDni, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(btnBuscar))
+					.addGap(11)
+					.addGroup(gl_panelAgregarClientes.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panelAgregarClientes.createSequentialGroup()
+							.addGap(7)
+							.addComponent(lblNombre))
+						.addComponent(txtNombre, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addGroup(gl_panelAgregarClientes.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panelAgregarClientes.createSequentialGroup()
+							.addGap(3)
+							.addComponent(lblApellido))
+						.addComponent(txtApellido, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(15)
+					.addGroup(gl_panelAgregarClientes.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panelAgregarClientes.createSequentialGroup()
+							.addGap(3)
+							.addComponent(lblCategoria))
+						.addComponent(cboCategoria, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(16)
+					.addGroup(gl_panelAgregarClientes.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panelAgregarClientes.createSequentialGroup()
+							.addGap(4)
+							.addComponent(lblContrasenia))
+						.addGroup(gl_panelAgregarClientes.createSequentialGroup()
+							.addGap(1)
+							.addComponent(txtContrasenia, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(chkVer))
+					.addGap(15)
+					.addComponent(chkHabilitado)
+					.addGap(48)
+					.addGroup(gl_panelAgregarClientes.createParallelGroup(Alignment.LEADING)
+						.addComponent(btnAgregarCliente, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnModificarDatos, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnBorrar, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnListado, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)))
+		);
+		panelAgregarClientes.setLayout(gl_panelAgregarClientes);
 		contentPane.setLayout(gl_contentPane);
 		cargarListas();
 		
@@ -337,12 +404,17 @@ public class ABMCClientes extends JFrame {
 	
 	
 	protected void buscarClick() {
-		try {
-			this.mapearAForm(ctrl.getByDni(this.mapearDeForm()));
-			lblId.setVisible(true);
-			txtId.setVisible(true);
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(contentPane, "No existen registros para ese DNI.", "Error", JOptionPane.INFORMATION_MESSAGE);
+		if(validaCampos()){			
+			try {
+				this.mapearAForm(ctrl.getByDni(this.mapearDeForm()));
+				lblId.setVisible(true);
+				txtId.setVisible(true);
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(contentPane, "No existen registros para ese DNI.", "Error", JOptionPane.INFORMATION_MESSAGE);
+			}
+		}
+		else{
+			JOptionPane.showMessageDialog(contentPane, "Rellene el campo DNI.", "Error", JOptionPane.INFORMATION_MESSAGE);
 		}
 		
 	}
@@ -380,5 +452,9 @@ public class ABMCClientes extends JFrame {
 		ListadoPersonas lp= new ListadoPersonas();
 		lp.setVisible(true);
 		
+	}
+	private boolean validaCampos(){
+		if(!this.txtDni.getText().equals("")) {return true;}
+		else {return false;}
 	}
 }

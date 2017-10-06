@@ -18,6 +18,8 @@ import org.jdesktop.swingbinding.SwingBindings;
 
 
 import controlers.CtrlABMCReservas;
+import entity.CurrentUser;
+import entity.Persona;
 import entity.Reserva;
 
 import javax.swing.GroupLayout;
@@ -58,7 +60,7 @@ public class ListadoReservas extends JFrame {
 		btnCancelarReserva.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				btnCancelarClick();
+				btnCancelarReservaClick();
 			}
 		});
 		
@@ -106,7 +108,13 @@ public class ListadoReservas extends JFrame {
 		contentPane.setLayout(gl_contentPane);
 		
 		try{
-			this.reservas=ctrl.getAll();
+			Persona per= CurrentUser.getCurrentUser().getUsuario();
+			if(per.getCategoria().getId()==1){
+				this.reservas=ctrl.getAll();
+			} else{
+				this.reservas=ctrl.getByUsuario(per);
+			}
+			
 		} catch (Exception e){
 			JOptionPane.showMessageDialog(this,e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 	
@@ -114,7 +122,7 @@ public class ListadoReservas extends JFrame {
 		initDataBindings();
 	}
 	
-	protected void btnCancelarClick() {
+	protected void btnCancelarReservaClick() {
 		int indexReserva=table.convertRowIndexToModel(table.getSelectedRow());
 		
 		int confirmado = JOptionPane.showConfirmDialog(contentPane,"¿Está seguro que desea cancelar su reserva?");

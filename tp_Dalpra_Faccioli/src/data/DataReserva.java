@@ -185,21 +185,21 @@ public class DataReserva{
 
 
 	public ArrayList<Reserva> getByUsuario(Persona per) throws Exception{
-		Reserva r= null;
+		
 		PreparedStatement stmt=null;
 		ResultSet rs=null;
 		ArrayList<Reserva> reservas= new ArrayList<Reserva>();
 		try {
 			stmt=FactoryConexion.getInstancia().getConn()
 					.prepareStatement(
-					"select * from reservas r inner join persona p on r.id_persona=p.id inner join elementos e on r.id_elemento= e.id where p.id=?",
+					"select * from reservas r inner join persona p on r.id_persona=p.id inner join elementos e on r.id_elemento= e.id where (p.id=?) and (r.fecha>CURDATE()) and (r.estado=1)",
 					PreparedStatement.RETURN_GENERATED_KEYS
 					);
 			
-			stmt.setString(1, per.getDni());	
+			stmt.setInt(1, per.getId());	
 			rs=stmt.executeQuery();
 			if(rs!=null && rs.next()){
-					r=new Reserva();
+					Reserva r=new Reserva();
 					r.setElemento(new Elemento());
 					r.setPersona(new Persona());
 					r.setId(rs.getInt("r.id"));
