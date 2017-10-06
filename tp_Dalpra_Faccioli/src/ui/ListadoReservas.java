@@ -18,6 +18,8 @@ import org.jdesktop.swingbinding.SwingBindings;
 
 
 import controlers.CtrlABMCReservas;
+import entity.CurrentUser;
+import entity.Persona;
 import entity.Reserva;
 
 import javax.swing.GroupLayout;
@@ -39,6 +41,7 @@ public class ListadoReservas extends JFrame {
 	private JPanel contentPane;
 	private JTable table;
 	private ArrayList<Reserva> reservas;
+	
 	CtrlABMCReservas ctrl= new CtrlABMCReservas();
 	
 	/**
@@ -106,7 +109,9 @@ public class ListadoReservas extends JFrame {
 		contentPane.setLayout(gl_contentPane);
 		
 		try{
-			this.reservas=ctrl.getAll();
+			Persona per = CurrentUser.getCurrentUser().getUsuario();
+			this.reservas=ctrl.getByUsuario(per);
+			
 		} catch (Exception e){
 			JOptionPane.showMessageDialog(this,e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 	

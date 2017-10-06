@@ -299,6 +299,7 @@ public class ABMCReservas extends JFrame {
 		ListadoReservas lr= new ListadoReservas();
 		lr.setVisible(true);
 		
+			
 	}
 	
 	private boolean validaCampos(){
