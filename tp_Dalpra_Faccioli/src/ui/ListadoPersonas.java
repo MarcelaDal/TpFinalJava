@@ -125,6 +125,9 @@ public class ListadoPersonas extends JFrame {
 		BeanProperty<Persona, String> personaBeanProperty_3 = BeanProperty.create("categoria.descripcion");
 		jTableBinding.addColumnBinding(personaBeanProperty_3).setColumnName("Categoria").setEditable(false);
 		//
+		BeanProperty<Persona, String> personaBeanProperty_4= BeanProperty.create("habilitado");
+		jTableBinding.addColumnBinding(personaBeanProperty_4).setColumnName("Habilitado").setEditable(false);
+		//
 		jTableBinding.setEditable(false);
 		jTableBinding.bind();
 	}

@@ -128,7 +128,7 @@ public class ListadoReservas extends JFrame {
 		int confirmado = JOptionPane.showConfirmDialog(contentPane,"¿Está seguro que desea cancelar su reserva?");
 		if (JOptionPane.OK_OPTION == confirmado){
 			try {
-				ctrl.update(this.reservas.get(indexReserva));
+				ctrl.delete(this.reservas.get(indexReserva));
 				JOptionPane.showMessageDialog(contentPane, "Reserva Cancelada");
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -144,7 +144,7 @@ public class ListadoReservas extends JFrame {
 	
 	protected void initDataBindings() {
 		
-		//TODO: mostrar sólo las reservas que están activas
+		//TODO: preguntar si el admin ve las reservas canceladas tambien
 		
 		JTableBinding<Reserva, List<Reserva>, JTable> jTableBinding = SwingBindings.createJTableBinding(UpdateStrategy.READ, reservas, table);
 		//

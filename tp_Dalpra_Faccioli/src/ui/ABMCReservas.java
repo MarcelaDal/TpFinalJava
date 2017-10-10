@@ -36,13 +36,13 @@ import javax.swing.JTextArea;
 import java.awt.Font;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
-//import com.github.lgooddatepicker.components.TimePicker;
 import java.awt.ComponentOrientation;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import com.github.lgooddatepicker.components.TimePicker;
+import com.github.lgooddatepicker.components.TimePickerSettings;
 
 public class ABMCReservas extends JFrame {
 
@@ -51,9 +51,28 @@ public class ABMCReservas extends JFrame {
 	private JPanel contentPane;
 	private JPanel panelAgregarClientes;
 	private JTable table;
-	private JComboBox cboTipoElemento, cboElemento;
+	private JComboBox cboTipoElemento, cboElemento, cboTime;
 	private JTextArea textAreaDetalle;
 	private JDateChooser dateChooserReserva;
+	
+	String[] times = {
+	         "08:00:00",
+	         "09:00:00",
+	         "10:00:00",
+	         "11:00:00",
+	         "12:00:00",
+	         "13:00:00",
+	         "14:00:00",
+	         "15:00:00",
+	         "16:00:00",
+	         "17:00:00",
+	         "18:00:00",
+	         "19:00:00",
+	         "20:00:00",
+	         "21:00:00",
+	         "22:00:00"
+	};
+	
 	//private TimePicker timePicker;
 
 	/**
@@ -90,13 +109,11 @@ public class ABMCReservas extends JFrame {
 		JButton btnVaciarCampos = new JButton("Vaciar campos");
 		btnVaciarCampos.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				
-				cboTipoElemento.setSelectedItem(null);
-				
+			public void mouseClicked(MouseEvent arg0) {			
+				vaciarCampos();				
 			}
 		});
-		btnVaciarCampos.setBounds(550, 16, 129, 21);
+		btnVaciarCampos.setBounds(550, 16, 129, 34);
 		btnVaciarCampos.setFocusCycleRoot(true);
 		btnVaciarCampos.setFocusPainted(false);
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
@@ -197,13 +214,17 @@ public class ABMCReservas extends JFrame {
 		textAreaDetalle.setBounds(182, 235, 211, 47);
 		panelAgregarClientes.add(textAreaDetalle);
 		
-		//timePicker = new TimePicker();
-		//timePicker.setBounds(182, 193, 142, 23);
-		//panelAgregarClientes.add(timePicker);
 		
 		JLabel lblCamposRequeridos = new JLabel("(*) Campos Requeridos");
 		lblCamposRequeridos.setBounds(182, 300, 149, 14);
 		panelAgregarClientes.add(lblCamposRequeridos);
+		
+				
+		cboTime = new JComboBox(times);
+		cboTime.setBounds(182, 194, 142, 20);
+		panelAgregarClientes.add(cboTime);
+		
+		cboTime.setSelectedIndex(-1);
 		
 		contentPane.setLayout(gl_contentPane);
 		cargarListaTipoElementos();
@@ -220,40 +241,38 @@ public class ABMCReservas extends JFrame {
 		if (cboElemento.getSelectedIndex() != -1){
 			r.setElemento((Elemento)cboElemento.getSelectedItem());
 		}
-		r.setDetalle(textAreaDetalle.getText());
-		
+		r.setDetalle(textAreaDetalle.getText());		
 		java.sql.Date date = new java.sql.Date(dateChooserReserva.getDate().getTime());
-		r.setFecha(date);
-		
-	
-		
-
-		
-		//TODO: set fecha y hora
-		//r.setFecha(date);
-		//r.setHora(timePicker.getTime());
-	
+		r.setFecha(date);		
+		java.sql.Time hora = Time.valueOf((String)this.cboTime.getSelectedItem());		
+		r.setHora(hora);	
 		Persona per = CurrentUser.getCurrentUser().getUsuario();
-		r.setPersona(per);
-		
+		r.setPersona(per);	
 		
 		return r;
 	}
 	
-	/*public void showPersona(Persona p){
-		this.mapearAForm(p);
-	}*/
-	
+		
 	private void reservarClick(){
+		
 		if(validaCampos()){
-			Reserva r= this.mapearDeForm();
+			Reserva r= this.mapearDeForm();	
+			Persona p= r.getPersona();
 			
-		try{
-			ctrl.add(r);
-			JOptionPane.showMessageDialog(contentPane, "Nueva reserva agregada exitosamente.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+		try{	
+			if(ctrl.isDateTimeAvailable(r)){
+				//if((ctrl.countReservasByUsuario(r, p))<(r.getElemento().getTipo().getCanMaxResPend())){
+					ctrl.add(r);
+					JOptionPane.showMessageDialog(contentPane, "Nueva reserva agregada exitosamente.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+					
+				//} else {JOptionPane.showMessageDialog(contentPane, "Usted ha superado el límite de reservas pendientes de "+r.getElemento().getNombre(), "Mensaje", JOptionPane.INFORMATION_MESSAGE);}
+			} else{	
+				JOptionPane.showMessageDialog(contentPane, "Combinación de fecha y hora no disponible. Elija otra.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+			}
 			
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(contentPane, "No se pudo agregar reserva", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+			System.out.println(e);
+			//JOptionPane.showMessageDialog(contentPane, "No se pudo agregar reserva", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
 		}
 		}
 		else{
@@ -300,6 +319,14 @@ public class ABMCReservas extends JFrame {
 		lr.setVisible(true);
 		
 			
+	}
+	
+	private void vaciarCampos(){
+		this.cboTipoElemento.setSelectedIndex(-1);
+		this.cboElemento.setSelectedIndex(-1);
+		this.dateChooserReserva.setCalendar(null);
+		this.cboTime.setSelectedIndex(-1);
+		this.textAreaDetalle.setText("");
 	}
 	
 	private boolean validaCampos(){

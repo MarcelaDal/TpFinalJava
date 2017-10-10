@@ -25,6 +25,7 @@ public class CtrlABMCReservas {
 		
 	}
 	
+	
 	public void add(Reserva r) throws Exception{
 		dataReserva.add(r);
 	}
@@ -37,19 +38,6 @@ public class CtrlABMCReservas {
 		return dataElementos.getByTipoElemento(te);
 	}
 	
-	public void update(Reserva r) throws Exception{
-		dataReserva.update(r);
-	}
-	
-	/*public Elemento getByNombre(Elemento el) throws Exception{
-		return this.dataElementos.getByNombre(el);
-	}*/
-	
-	/*public Elemento getByNombre(String nombre)throws Exception{
-		Elemento ele=new Elemento();
-		ele.setNombre(nombre);
-		return getByNombre(ele);
-	}*/
 	public ArrayList<Reserva> getByUsuario(Persona p) throws Exception{
 		return dataReserva.getByUsuario(p);
 	}
@@ -64,4 +52,10 @@ public class CtrlABMCReservas {
 	public ArrayList<Elemento> getElementos() throws Exception{
 		return dataElementos.getAll();
 	}
+	public boolean isDateTimeAvailable(Reserva r) throws Exception{
+		return dataReserva.getReservasSuperpuestas(r);
+	}
+	/*public int countReservasByUsuario(Reserva r, Persona p) throws Exception{
+		return Integer.parseInt(dataReserva.countReservasByUsuario(r,p));
+	}*/
 }
