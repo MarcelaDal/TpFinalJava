@@ -267,7 +267,7 @@ public class ABMCReservas extends JFrame {
 					
 				//} else {JOptionPane.showMessageDialog(contentPane, "Usted ha superado el límite de reservas pendientes de "+r.getElemento().getNombre(), "Mensaje", JOptionPane.INFORMATION_MESSAGE);}
 			} else{	
-				JOptionPane.showMessageDialog(contentPane, "Combinación de fecha y hora no disponible. Elija otra.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(contentPane, "Combinación de fecha y hora no disponible. Por favor, elija otra.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
 			}
 			
 		} catch (Exception e) {

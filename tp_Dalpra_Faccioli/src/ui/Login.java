@@ -16,7 +16,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
-import data.DataPersona;
+import controlers.CtrlABMCClientes;
 import entity.Persona;
 import entity.CurrentUser;
 
@@ -99,14 +99,14 @@ public class Login extends JFrame {
 		String pass= String.valueOf(txtContraseña.getPassword());
 		
 				
-		DataPersona login= new DataPersona();
+		CtrlABMCClientes ctrl= new CtrlABMCClientes();
 		Persona p= new Persona();
 		p.setUsuario(usuario);
 		p.setContrasenia(pass);
 		
 		Persona per;
 		try {
-			per = login.obtenerUsuario(p);
+			per = ctrl.login(p);
 			if(per!=null){
 				if(per.isHabilitado()==true){
 				CurrentUser.getSingletonInstance().setUsuario(per);

@@ -47,4 +47,8 @@ public class CtrlABMCClientes {
 	public ArrayList<Categoria> getCategorias() throws Exception{
 		return dataCat.getAll();
 	}
+	
+	public Persona login(Persona per) throws Exception{
+		return dataPer.obtenerUsuario(per);
+	}
 }
