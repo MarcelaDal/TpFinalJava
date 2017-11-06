@@ -17,7 +17,7 @@ public class DataTipoElementos {
 		try {
 			stmt=FactoryConexion.getInstancia().getConn()
 					.prepareStatement(
-					"insert into tipos_elementos(nombre, cant_max_reservas_pendientea) values (?,?)",
+					"insert into tipos_elementos(nombre, cant_max_reservas_pendientes) values (?,?)",
 					PreparedStatement.RETURN_GENERATED_KEYS
 					);
 			stmt.setString(1, te.getNombre());
