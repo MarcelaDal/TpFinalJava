@@ -380,7 +380,19 @@ public class ABMCClientes extends JFrame {
 	
 	protected void borrarClick(){
 		try{
-			ctrl.delete(this.mapearDeForm());
+			if(!this.txtNombre.getText().equals("")){
+				int opcion = JOptionPane.showConfirmDialog(contentPane, "¿Està seguro de que desea eliminar el cliente?", "Aviso", JOptionPane.YES_NO_OPTION);
+				
+				if (opcion == 0) { 
+					ctrl.delete(this.mapearDeForm());
+					JOptionPane.showMessageDialog(contentPane, "El cliente ha sido dado de baja.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+				}else{}
+			} else {
+				JOptionPane.showMessageDialog(contentPane, "Complete el campo 'Nombre'.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+
+			}			
+			
+
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(contentPane, "Ha sucedido un error, intente nuevamente.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
 		}

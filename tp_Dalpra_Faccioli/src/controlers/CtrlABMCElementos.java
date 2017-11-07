@@ -2,6 +2,8 @@ package controlers;
 
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import data.DataTipoElementos;
 import data.DataElementos;
 import entity.TipoElementos;
@@ -19,19 +21,44 @@ public class CtrlABMCElementos {
 	}
 	
 	public void add(Elemento ele) throws Exception{
-		dataElementos.add(ele);
+		try {
+			dataElementos.add(ele);
+
+		} catch (Exception e) {
+		 	e.printStackTrace();
+		}
 	}
 	
 	public void delete(Elemento ele)throws Exception{
-		dataElementos.remove(ele);
+		try {
+			dataElementos.remove(ele);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void update(Elemento ele)throws Exception{
-		dataElementos.update(ele);
+		try {
+			dataElementos.update(ele);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
 	}
 	
-	public Elemento getByNombre(Elemento el) throws Exception{
-		return this.dataElementos.getByNombre(el);
+	public Elemento getByNombre(Elemento el){
+		try {
+			return this.dataElementos.getByNombre(el);
+		
+		} catch (Exception e) {
+			;
+
+			e.printStackTrace();
+			return null;
+		}
+
 	}
 	
 	public Elemento getByNombre(String nombre)throws Exception{
@@ -45,7 +72,12 @@ public class CtrlABMCElementos {
 		return dataElementos.getAll();
 	}
 	
-	public ArrayList<TipoElementos> getTipoElementos() throws Exception{
-		return dataTipoEle.getAll();
+	public ArrayList<TipoElementos> getTipoElementos(){		
+		try {
+			return dataTipoEle.getAll();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 }

@@ -196,11 +196,19 @@ public class ABMCElementos extends JFrame {
 	protected void agregarClick() {
 		Elemento ele = this.mapearDeForm();
 		try{
-			ctrl.add(ele);
-			JOptionPane.showMessageDialog(contentPane, "Nuevo cliente agregado con éxito.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+			if(this.validaCampos()){
+				ctrl.add(ele);	
+				JOptionPane.showMessageDialog(contentPane, "Nuevo elemento agregado con éxito.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+			}
+			else{
+				JOptionPane.showMessageDialog(contentPane, "Rellene todos los campos.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+			}
 			
+
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, e.getMessage());
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(contentPane, "Ha sucedido un error, intente nuevamente.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+
 		}
 		this.txtId.setText(String.valueOf(ele.getId()));
 		
@@ -208,18 +216,39 @@ public class ABMCElementos extends JFrame {
 	
 	protected void borrarClick(){
 		try{
-			ctrl.delete(this.mapearDeForm());
+			if(!this.txtNombre.getText().equals("")){
+				int opcion = JOptionPane.showConfirmDialog(null, "¿Está seguro de que desea eliminar el elemento?", "Aviso", JOptionPane.YES_NO_OPTION);
+				
+				if (opcion == 0) { 
+					ctrl.delete(this.mapearDeForm());
+					JOptionPane.showMessageDialog(contentPane, "El elemento ha sido dado de baja.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+
+			}
+					} else {
+						JOptionPane.showMessageDialog(contentPane, "Rellene el campo 'Nombre'.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+
+			   
+			}
+
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(contentPane, "Ha sucedido un error, intente nuevamente.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(contentPane, "No se ha podido realizar la eliminación.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+
 		}
 	}
 	
 	protected void modificarClick(){
 		try{
-			ctrl.update(this.mapearDeForm());
-			JOptionPane.showMessageDialog(contentPane, "Modificación exitosa", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+			if(!this.txtNombre.getText().equals("")){
+				ctrl.update(this.mapearDeForm());	
+				JOptionPane.showMessageDialog(contentPane, "Elemento modificado con éxito.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+
+			}else{
+				JOptionPane.showMessageDialog(contentPane, "Rellene el campo 'Nombre'.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+			}
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(contentPane, "No se ha podido realizar la modificación.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+
+		e.printStackTrace();
 		}
 	}
 	
@@ -234,11 +263,18 @@ public class ABMCElementos extends JFrame {
 	
 	protected void buscarClick() {
 		try {
+			if(!this.txtNombre.getText().equals("")){
 			this.mapearAForm(ctrl.getByNombre(this.mapearDeForm()));
 			lblId.setVisible(true);
 			txtId.setVisible(true);
+			}
+			else{
+				JOptionPane.showMessageDialog(contentPane, "Rellene el campo 'Nombre'.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+
+			}
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(contentPane, "No existen registros para ese elemento.", "Error", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(contentPane, "No se ha podido encontrar el elemento.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+			e.printStackTrace();
 		}
 		
 	}
@@ -265,7 +301,8 @@ public class ABMCElementos extends JFrame {
 			this.cboTipoElemento.setModel(new DefaultComboBoxModel(this.ctrl.getTipoElementos().toArray()));
 			this.cboTipoElemento.setSelectedIndex(-1);
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, "Error recuperando tipo de Elementos");
+			JOptionPane.showMessageDialog(null, "Error recuperando Tipos de Elementos", "Error", JOptionPane.INFORMATION_MESSAGE);
+
 		}
 	}
 	protected void mnuListadoElementosClick() {
@@ -273,5 +310,14 @@ public class ABMCElementos extends JFrame {
 		ListadoElementos le= new ListadoElementos();
 		le.setVisible(true);
 		
+	}
+	private boolean validaCampos(){
+		if((!this.txtNombre.getText().equals("") )&&
+		(this.cboTipoElemento.getSelectedItem()!=null))
+		{
+			return true;
+		}else{
+			return false;
+		}
 	}
 }

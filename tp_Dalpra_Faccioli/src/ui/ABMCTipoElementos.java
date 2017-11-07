@@ -205,7 +205,6 @@ public class ABMCTipoElementos extends JFrame {
 		panelTipoElementos.add(txtId);
 		
 		chkHabilitado = new JCheckBox("Habilitado");
-		chkHabilitado.setVisible(false);
 		chkHabilitado.setBounds(252, 165, 97, 23);
 		panelTipoElementos.add(chkHabilitado);
 		
@@ -223,11 +222,18 @@ public class ABMCTipoElementos extends JFrame {
 	protected void agregarClick() {
 		TipoElementos te = this.mapearDeForm();
 		try{
-			//ctrl.add(te);
-			JOptionPane.showMessageDialog(contentPane, "Nuevo tipo de elemento agregado con éxito", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+			if(this.validaCampos()){
+				ctrl.add(te);
+				JOptionPane.showMessageDialog(contentPane, "Nuevo tipo de elemento agregado con éxito", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+
+			}else{
+				JOptionPane.showMessageDialog(contentPane, "Rellene todos los campos.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+
+			}
+			
 			
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(contentPane, "Ha sucedido un error.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(this, e.getMessage());
 		}
 		this.txtId.setText(String.valueOf(te.getId()));
 		
@@ -235,7 +241,18 @@ public class ABMCTipoElementos extends JFrame {
 	
 	protected void borrarClick(){
 		try{
-			//ctrl.delete(this.mapearDeForm());
+			if(this.validaCampos()){
+				int opcion = JOptionPane.showConfirmDialog(contentPane, "¿Está seguro de que desea eliminar el tipo de elemento?", "Aviso", JOptionPane.YES_NO_OPTION);
+				if (opcion == 0) { 
+					ctrl.delete(this.mapearDeForm());
+					JOptionPane.showMessageDialog(contentPane, "El tipo de elemento ha sido dado de baja.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+
+				}
+			} else {
+				JOptionPane.showMessageDialog(contentPane, "Rellene todos los campos.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+
+			}
+			
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage());
 		}
@@ -243,18 +260,28 @@ public class ABMCTipoElementos extends JFrame {
 	
 	protected void modificarClick(){
 		try{
-			ctrl.update(this.mapearDeForm());
-			JOptionPane.showMessageDialog(contentPane, "Modificación exitosa", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+			if(this.validaCampos()){
+				ctrl.update(this.mapearDeForm());
+				JOptionPane.showMessageDialog(contentPane, "Modificación exitosa", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+			}else{
+				JOptionPane.showMessageDialog(contentPane, "Rellene todos los campos.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+			}
+			
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(contentPane, "No se ha podido realizar la modificación", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(this, e.getMessage());
 		}
 	}
 	
 	protected void buscarClick() {
 		try {
+			if(!this.txtNombre.getText().equals("")){
 			this.mapearAForm(ctrl.getByNombre(this.mapearDeForm()));
 			lblId.setVisible(true);
 			txtId.setVisible(true);
+			}else{
+				JOptionPane.showMessageDialog(contentPane, "Rellene el campo 'Nombre'.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+
+			}
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(contentPane, "No existen registros con ese nombre.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
 		}
@@ -293,5 +320,14 @@ public class ABMCTipoElementos extends JFrame {
 		ListadoTipoElementos lte= new ListadoTipoElementos();
 		lte.setVisible(true);
 		
+	}
+	private boolean validaCampos(){
+		if((!this.txtNombre.getText().equals("") )&&
+		(this.cmbCantMaxRes.getSelectedItem()!=null))
+		{
+			return true;
+		}else{
+			return false;
+		}
 	}
 }
