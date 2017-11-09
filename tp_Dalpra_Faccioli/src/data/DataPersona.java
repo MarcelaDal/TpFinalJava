@@ -66,13 +66,14 @@ public class DataPersona{
 			stmt.setString(3, p.getApellido());
 			stmt.setBoolean(4, p.isHabilitado());
 			stmt.setInt(5, p.getCategoria().getId());
-			stmt.setString(6, p.getUsuario());
-			stmt.setString(7, p.getContrasenia());
+			stmt.setString(6, p.getNombre()+p.getApellido());
+			stmt.setString(7, "1234");
 			stmt.executeUpdate();
 			keyResultSet=stmt.getGeneratedKeys();
 			if(keyResultSet!=null && keyResultSet.next()){
 				p.setId(keyResultSet.getInt(1));
 			}
+			
 			
 		} catch (SQLException | AppDataException e) {
 			throw e;
