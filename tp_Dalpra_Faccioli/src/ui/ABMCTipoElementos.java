@@ -223,7 +223,7 @@ public class ABMCTipoElementos extends JFrame {
 	protected void agregarClick() {
 		TipoElementos te = this.mapearDeForm();
 		try{
-			//ctrl.add(te);
+			ctrl.add(te);
 			JOptionPane.showMessageDialog(contentPane, "Nuevo tipo de elemento agregado con éxito", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
 			
 		} catch (Exception e) {
@@ -235,7 +235,8 @@ public class ABMCTipoElementos extends JFrame {
 	
 	protected void borrarClick(){
 		try{
-			//ctrl.delete(this.mapearDeForm());
+			ctrl.delete(this.mapearDeForm());
+			JOptionPane.showMessageDialog(contentPane, "Tipo de elemento borrado con éxito", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage());
 		}
