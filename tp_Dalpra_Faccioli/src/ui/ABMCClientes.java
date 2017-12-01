@@ -80,15 +80,7 @@ public class ABMCClientes extends JFrame {
 		btnVaciarCampos.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				txtId.setText("");
-				txtDni.setText("");
-				txtNombre.setText("");
-				txtApellido.setText("");
-				cboCategoria.setSelectedItem(null);
-				chkHabilitado.setSelected(false);
-				txtContrasenia.setText("");
-				txtId.setVisible(false);
-				lblId.setVisible(false);
+				
 				
 			}
 		});
@@ -116,7 +108,6 @@ public class ABMCClientes extends JFrame {
 		txtDni.setColumns(10);
 		
 		btnBuscar = new JButton("Buscar");
-		btnBuscar.setVisible(false);
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -214,7 +205,7 @@ public class ABMCClientes extends JFrame {
 			}
 		});
 		
-		JCheckBox chkHabilitado = new JCheckBox("habilitado");
+		chkHabilitado = new JCheckBox("habilitado");
 		GroupLayout gl_panelAgregarClientes = new GroupLayout(panelAgregarClientes);
 		gl_panelAgregarClientes.setHorizontalGroup(
 			gl_panelAgregarClientes.createParallelGroup(Alignment.LEADING)
@@ -334,28 +325,6 @@ public class ABMCClientes extends JFrame {
 	}
 	
 	
-	
-	
-	private void visualizarBotones() {
-		if(CurrentUser.getCurrentUser().getUsuario().getCategoria().getId()==1){
-			this.chkHabilitado.setVisible(true);
-			this.btnBuscar.setVisible(true);
-			this.btnAgregarCliente.setVisible(true);
-			this.btnBorrar.setVisible(true);
-			this.btnListado.setVisible(true);
-			this.txtContrasenia.setVisible(false);
-			this.lblContrasenia.setVisible(false);
-			this.chkVerPassword.setVisible(false);
-			this.cboCategoria.setVisible(true);
-			this.lblCategoria.setVisible(true);
-			
-		}
-		if(CurrentUser.getCurrentUser().getUsuario().getCategoria().getId()!=1){
-			this.txtContrasenia.setVisible(true);
-			this.lblContrasenia.setVisible(true);
-			this.chkVerPassword.setVisible(true);
-		}
-	}
 
 	protected void verPassword(){
 		if(this.chkVerPassword.isSelected()){this.txtContrasenia.setEchoChar((char)0);}
@@ -489,5 +458,36 @@ public class ABMCClientes extends JFrame {
 			(!this.txtContrasenia.getPassword().equals(""))&&
 			(this.cboCategoria.getSelectedItem()!=null)) {return true;}
 		else {return false;}
+	}
+	
+	private void visualizarBotones() {
+		if(CurrentUser.getCurrentUser().getUsuario().getCategoria().getId()==1){
+			chkHabilitado.setVisible(true);
+			txtContrasenia.setVisible(false);
+			lblContrasenia.setVisible(false);
+			chkVerPassword.setVisible(false);
+			cboCategoria.setVisible(true);
+			lblCategoria.setVisible(true);
+			btnAgregarCliente.setVisible(false);
+			btnBorrar.setVisible(false);
+			btnListado.setVisible(false);
+		}
+		if(CurrentUser.getCurrentUser().getUsuario().getCategoria().getId()!=1){
+			txtContrasenia.setVisible(true);
+			lblContrasenia.setVisible(true);
+			chkVerPassword.setVisible(true);
+			chkHabilitado.setVisible(false);
+		}
+	}
+	public void vaciarCampos(){
+		txtId.setText("");
+		txtDni.setText("");
+		txtNombre.setText("");
+		txtApellido.setText("");
+		cboCategoria.setSelectedItem(null);
+		chkHabilitado.setSelected(false);
+		txtContrasenia.setText("");
+		txtId.setVisible(false);
+		lblId.setVisible(false);
 	}
 }

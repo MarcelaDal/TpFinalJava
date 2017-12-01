@@ -193,10 +193,6 @@ public class ABMCElementos extends JFrame {
 		contentPane.setLayout(gl_contentPane);
 		cargarListas();
 	}
-	
-	
-	
-	
 	protected void agregarClick() {
 		Elemento ele = this.mapearDeForm();
 		try{

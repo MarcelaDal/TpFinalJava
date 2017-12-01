@@ -211,7 +211,7 @@ public class DataReserva{
 		return reservas;
 		
 	}
-	
+}
 	/*
 public String countReservasByUsuario(Reserva r, Persona per) throws Exception{
 		
@@ -254,4 +254,3 @@ public String countReservasByUsuario(Reserva r, Persona per) throws Exception{
 
 		
 	
-}
