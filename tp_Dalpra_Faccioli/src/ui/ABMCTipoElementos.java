@@ -42,6 +42,7 @@ import controlers.CtrlABMCTipoElementos;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 
 public class ABMCTipoElementos extends JFrame {
+	
 
 	private CtrlABMCTipoElementos ctrl=new CtrlABMCTipoElementos();
 		
