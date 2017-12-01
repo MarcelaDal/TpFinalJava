@@ -45,6 +45,7 @@ public class ABMCElementos extends JFrame {
 	private JPanel panelElementos;
 	private JTextField txtId;
 	private JLabel lblId;
+	private JCheckBox chkHabilitado;
 
 	
 	public ABMCElementos() {
@@ -69,15 +70,14 @@ public class ABMCElementos extends JFrame {
 		lblId.setHorizontalAlignment(SwingConstants.RIGHT);
 		
 		JButton btnVaciarCampos = new JButton("Vaciar campos");
+		btnVaciarCampos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
 		btnVaciarCampos.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				txtId.setText("");
-				txtNombre.setText("");
-				cboTipoElemento.setSelectedItem(null);
-				txtId.setVisible(false);
-				lblId.setVisible(false);
-				
+				vaciarCampos();
 			}
 		});
 		btnVaciarCampos.setBounds(550, 16, 129, 21);
@@ -150,8 +150,8 @@ public class ABMCElementos extends JFrame {
 			}
 		});
 		
-		JButton btnBorrarElemento = new JButton("Baja Elemento");
-		btnBorrarElemento.setBounds(321, 288, 136, 34);
+		JButton btnBorrarElemento = new JButton("Eliminar Elemento");
+		btnBorrarElemento.setBounds(321, 288, 148, 34);
 		btnBorrarElemento.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -186,6 +186,10 @@ public class ABMCElementos extends JFrame {
 		
 		btnListado.setBounds(551, 288, 136, 34);
 		panelElementos.add(btnListado);
+		
+		chkHabilitado = new JCheckBox("Habilitado");
+		chkHabilitado.setBounds(252, 170, 97, 23);
+		panelElementos.add(chkHabilitado);
 		contentPane.setLayout(gl_contentPane);
 		cargarListas();
 	}
@@ -199,6 +203,7 @@ public class ABMCElementos extends JFrame {
 			if(this.validaCampos()){
 				ctrl.add(ele);	
 				JOptionPane.showMessageDialog(contentPane, "Nuevo elemento agregado con éxito.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+				this.vaciarCampos();
 			}
 			else{
 				JOptionPane.showMessageDialog(contentPane, "Rellene todos los campos.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
@@ -217,12 +222,12 @@ public class ABMCElementos extends JFrame {
 	protected void borrarClick(){
 		try{
 			if(!this.txtNombre.getText().equals("")){
-				int opcion = JOptionPane.showConfirmDialog(null, "¿Está seguro de que desea eliminar el elemento?", "Aviso", JOptionPane.YES_NO_OPTION);
+				int opcion = JOptionPane.showConfirmDialog(null, "¿Está seguro de que desea dar de baja al elemento?", "Aviso", JOptionPane.YES_NO_OPTION);
 				
 				if (opcion == 0) { 
 					ctrl.delete(this.mapearDeForm());
 					JOptionPane.showMessageDialog(contentPane, "El elemento ha sido dado de baja.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
-
+					this.vaciarCampos();
 			}
 					} else {
 						JOptionPane.showMessageDialog(contentPane, "Rellene el campo 'Nombre'.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
@@ -231,7 +236,7 @@ public class ABMCElementos extends JFrame {
 			}
 
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(contentPane, "No se ha podido realizar la eliminación.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(contentPane, "No se ha podido dar de baja el elemento.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
 
 		}
 	}
@@ -241,7 +246,7 @@ public class ABMCElementos extends JFrame {
 			if(!this.txtNombre.getText().equals("")){
 				ctrl.update(this.mapearDeForm());	
 				JOptionPane.showMessageDialog(contentPane, "Elemento modificado con éxito.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
-
+				this.vaciarCampos();
 			}else{
 				JOptionPane.showMessageDialog(contentPane, "Rellene el campo 'Nombre'.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
 			}
@@ -258,6 +263,7 @@ public class ABMCElementos extends JFrame {
 			this.cboTipoElemento.setSelectedItem(ele.getTipo());
 		}
 		this.txtId.setText(String.valueOf(ele.getId()));
+		this.chkHabilitado.setSelected(ele.isHabilitado());
 	}
 	
 	
@@ -288,7 +294,7 @@ public class ABMCElementos extends JFrame {
 		if (cboTipoElemento.getSelectedIndex() != -1){
 			ele.setTipo((TipoElementos)cboTipoElemento.getSelectedItem());
 		}
-		
+		ele.setHabilitado(this.chkHabilitado.isSelected());
 		return ele;
 	}
 	
@@ -319,5 +325,12 @@ public class ABMCElementos extends JFrame {
 		}else{
 			return false;
 		}
+	}
+	
+	private void vaciarCampos(){
+		txtId.setText("");
+		txtNombre.setText("");
+		cboTipoElemento.setSelectedItem(null);
+		chkHabilitado.setSelected(false);
 	}
 }

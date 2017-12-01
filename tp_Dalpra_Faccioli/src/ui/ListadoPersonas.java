@@ -101,13 +101,16 @@ public class ListadoPersonas extends JFrame {
 	
 	protected void btnEditarClick() {
 		int indexPersona=table.convertRowIndexToModel(table.getSelectedRow());
+		if(indexPersona!=-1){			
+			ABMCClientes pd= new ABMCClientes();
+			pd.showPersona(this.pers.get(indexPersona));
+			
+			//this.getDesktopPane().add(pd);
+			pd.setVisible(true);
+			this.dispose();
+		}
+		else JOptionPane.showMessageDialog(contentPane, "Seleccione una persona.", "Error", JOptionPane.ERROR_MESSAGE);
 		
-		ABMCClientes pd= new ABMCClientes();
-		pd.showPersona(this.pers.get(indexPersona));
-		
-		//this.getDesktopPane().add(pd);
-		pd.setVisible(true);
-		this.dispose();
 	}
 	
 	protected void initDataBindings() {

@@ -89,13 +89,15 @@ public class ListadoTipoElementos extends JFrame {
 	
 	protected void btnEditarClick() {
 		int indexTipoElemento=table.convertRowIndexToModel(table.getSelectedRow());
+		if(indexTipoElemento!=-1){
+			ABMCTipoElementos pd= new ABMCTipoElementos();
+			pd.showTipoElementos(this.tipoelementos.get(indexTipoElemento));
+			
+			//this.getDesktopPane().add(pd);
+			pd.setVisible(true);
+			this.dispose();
+		}
 		
-		ABMCTipoElementos pd= new ABMCTipoElementos();
-		pd.showTipoElementos(this.tipoelementos.get(indexTipoElemento));
-		
-		//this.getDesktopPane().add(pd);
-		pd.setVisible(true);
-		this.dispose();
 	}
 	protected void initDataBindings() {
 		JTableBinding<TipoElementos, List<TipoElementos>, JTable> jTableBinding = SwingBindings.createJTableBinding(UpdateStrategy.READ, tipoelementos, table);

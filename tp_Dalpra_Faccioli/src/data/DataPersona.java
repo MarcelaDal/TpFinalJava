@@ -58,7 +58,7 @@ public class DataPersona{
 		try {
 			stmt=FactoryConexion.getInstancia().getConn()
 					.prepareStatement(
-					"insert into persona(dni, nombre, apellido, habilitado, id_categoria, usuario, contrasenia) values (?,?,?,?,?,?,?)",
+					"insert into persona (dni, nombre, apellido, habilitado, id_categoria, usuario, contrasenia) values (?,?,?,?,?,?,?)",
 					PreparedStatement.RETURN_GENERATED_KEYS
 					);
 			stmt.setString(1, p.getDni());
@@ -177,9 +177,10 @@ public class DataPersona{
 		try {
 			stmt=FactoryConexion.getInstancia().getConn()
 					.prepareStatement(
-					"update persona set habilitado=0 where id=?"
+					"update persona set habilitado=? where id=?"
 					);
-			stmt.setInt(1, p.getId());
+			stmt.setBoolean(1, false);
+			stmt.setInt(2, p.getId());
 			stmt.executeUpdate();
 						
 			
@@ -202,7 +203,7 @@ public class DataPersona{
 		try {
 			stmt=FactoryConexion.getInstancia().getConn()
 					.prepareStatement(
-					"update persona set dni=?, nombre=?, apellido=?, id_categoria=?, habilitado=? where id=?"
+					"update persona set dni=?, nombre=?, apellido=?, id_categoria=?, habilitado=?, contrasenia=?  where id=?"
 					);
 			stmt.setString(1, p.getDni());
 			stmt.setString(2, p.getNombre());
@@ -210,8 +211,7 @@ public class DataPersona{
 			stmt.setInt(4, p.getCategoria().getId());
 			stmt.setBoolean(5, p.isHabilitado());
 			stmt.setInt(6, p.getId());
-			stmt.executeUpdate();
-						
+			stmt.executeUpdate();						
 			
 		} catch (SQLException | AppDataException e) {
 			throw e;

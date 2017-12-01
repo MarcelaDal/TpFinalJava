@@ -32,8 +32,7 @@ public class Login extends JFrame {
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				try {
-					
+				try {					
 					Login frame = new Login();
 					frame.setVisible(true);
 					
@@ -117,7 +116,7 @@ public class Login extends JFrame {
 				window.frame.setVisible(true);
 				window.visualizarBotones();
 				}else{
-					JOptionPane.showMessageDialog(contentPane, "Usted está habilitado para ingresar al sistema. Contacte con un Administrador.", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(contentPane, "Usted no está habilitado para ingresar al sistema. Contacte con un Administrador.", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 				
 			}else{

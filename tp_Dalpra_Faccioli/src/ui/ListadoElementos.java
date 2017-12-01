@@ -98,11 +98,13 @@ public class ListadoElementos extends JFrame {
 	
 	protected void btnEditarClick() {
 		int indexElemento=table.convertRowIndexToModel(table.getSelectedRow());
+		if(indexElemento!=-1){
+			ABMCElementos pd= new ABMCElementos();
+			pd.showElementos(this.elementos.get(indexElemento));
+			pd.setVisible(true);
+			this.dispose();
+		}
 		
-		ABMCElementos pd= new ABMCElementos();
-		pd.showElementos(this.elementos.get(indexElemento));
-		pd.setVisible(true);
-		this.dispose();
 	}
 	protected void initDataBindings() {
 		JTableBinding<Elemento, List<Elemento>, JTable> jTableBinding = SwingBindings.createJTableBinding(UpdateStrategy.READ, elementos, table);
@@ -113,6 +115,9 @@ public class ListadoElementos extends JFrame {
 		
 		BeanProperty<Elemento, String> elementoBeanProperty_1 = BeanProperty.create("tipo.nombre");
 		jTableBinding.addColumnBinding(elementoBeanProperty_1).setColumnName("Tipo Elemento").setEditable(false);
+		
+		BeanProperty<Elemento, String> elementoBeanProperty_2 = BeanProperty.create("habilitado");
+		jTableBinding.addColumnBinding(elementoBeanProperty_2).setColumnName("Estado").setEditable(false);
 		//
 		jTableBinding.setEditable(false);
 		jTableBinding.bind();

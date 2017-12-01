@@ -124,17 +124,19 @@ public class ListadoReservas extends JFrame {
 	
 	protected void btnCancelarReservaClick() {
 		int indexReserva=table.convertRowIndexToModel(table.getSelectedRow());
-		
-		int confirmado = JOptionPane.showConfirmDialog(contentPane,"¿Está seguro que desea cancelar su reserva?");
-		if (JOptionPane.OK_OPTION == confirmado){
-			try {
-				ctrl.delete(this.reservas.get(indexReserva));
-				JOptionPane.showMessageDialog(contentPane, "Reserva Cancelada");
-			} catch (Exception e) {
-				e.printStackTrace();
-				JOptionPane.showMessageDialog(this,e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+		if(indexReserva!=-1){
+			int confirmado = JOptionPane.showConfirmDialog(contentPane,"¿Está seguro que desea cancelar su reserva?");
+			if (JOptionPane.OK_OPTION == confirmado){
+				try {
+					ctrl.delete(this.reservas.get(indexReserva));
+					JOptionPane.showMessageDialog(contentPane, "Reserva Cancelada");
+				} catch (Exception e) {
+					e.printStackTrace();
+					JOptionPane.showMessageDialog(this,e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		}
+		
 	}
 	
 	protected void btnSalirClick() {
