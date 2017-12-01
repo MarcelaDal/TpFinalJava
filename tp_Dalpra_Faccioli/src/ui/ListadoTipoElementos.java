@@ -101,13 +101,15 @@ public class ListadoTipoElementos extends JFrame {
 	}
 	protected void initDataBindings() {
 		JTableBinding<TipoElementos, List<TipoElementos>, JTable> jTableBinding = SwingBindings.createJTableBinding(UpdateStrategy.READ, tipoelementos, table);
-		//
+		
 		BeanProperty<TipoElementos, String> tipos_elementosBeanProperty = BeanProperty.create("nombre");
 		jTableBinding.addColumnBinding(tipos_elementosBeanProperty).setColumnName("Nombre").setEditable(false);
-		//
+		
 		BeanProperty<TipoElementos, String> tipos_elementosBeanProperty_1 =BeanProperty.create("canMaxResPend");
 		jTableBinding.addColumnBinding(tipos_elementosBeanProperty_1).setColumnName("Cantidad máxima reservas pendientes").setEditable(false);
-		//
+		
+		BeanProperty<TipoElementos, String> tipos_elementosBeanProperty_2 =BeanProperty.create("habilitado");
+		jTableBinding.addColumnBinding(tipos_elementosBeanProperty_2).setColumnName("Habilitado").setEditable(false);
 		jTableBinding.setEditable(false);
 		jTableBinding.bind();
 	}

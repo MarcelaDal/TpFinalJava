@@ -42,11 +42,8 @@ import controlers.CtrlABMCTipoElementos;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 
 public class ABMCTipoElementos extends JFrame {
-	
-
 	private CtrlABMCTipoElementos ctrl=new CtrlABMCTipoElementos();
 		
-	
 	private JPanel contentPane;
 	private JTextField txtNombre;
 	private JPanel panelTipoElementos;
@@ -70,7 +67,6 @@ public class ABMCTipoElementos extends JFrame {
 		panelTipoElementos.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Mantenimiento Tipo de Elementos", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		
 		lblId = new JLabel("ID");
-		lblId.setVisible(false);
 		lblId.setBounds(197, 49, 36, 14);
 		lblId.setHorizontalAlignment(SwingConstants.RIGHT);
 		
@@ -78,13 +74,7 @@ public class ABMCTipoElementos extends JFrame {
 		btnVaciarCampos.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				txtId.setText("");
-				txtNombre.setText("");
-				txtNombre.setText("");
-				chkHabilitado.setSelected(false);
-				cmbCantMaxRes.setSelectedItem(null);	
-				txtId.setVisible(false);
-				lblId.setVisible(false);
+				vaciarCampos();
 			}
 		});
 		btnVaciarCampos.setBounds(550, 16, 129, 21);
@@ -200,7 +190,6 @@ public class ABMCTipoElementos extends JFrame {
 		txtId = new JTextField();
 		txtId.setEnabled(false);
 		txtId.setEditable(false);
-		txtId.setVisible(false);
 		txtId.setColumns(10);
 		txtId.setBounds(252, 46, 100, 20);
 		panelTipoElementos.add(txtId);
@@ -226,7 +215,7 @@ public class ABMCTipoElementos extends JFrame {
 			if(this.validaCampos()){
 				ctrl.add(te);
 				JOptionPane.showMessageDialog(contentPane, "Nuevo tipo de elemento agregado con éxito", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
-
+				this.vaciarCampos();
 			}else{
 				JOptionPane.showMessageDialog(contentPane, "Rellene todos los campos.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
 
@@ -247,7 +236,7 @@ public class ABMCTipoElementos extends JFrame {
 				if (opcion == 0) { 
 					ctrl.delete(this.mapearDeForm());
 					JOptionPane.showMessageDialog(contentPane, "El tipo de elemento ha sido dado de baja.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
-
+					this.vaciarCampos();
 				}
 			} else {
 				JOptionPane.showMessageDialog(contentPane, "Rellene todos los campos.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
@@ -264,6 +253,7 @@ public class ABMCTipoElementos extends JFrame {
 			if(this.validaCampos()){
 				ctrl.update(this.mapearDeForm());
 				JOptionPane.showMessageDialog(contentPane, "Modificación exitosa", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+				this.vaciarCampos();
 			}else{
 				JOptionPane.showMessageDialog(contentPane, "Rellene todos los campos.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
 			}
@@ -277,8 +267,6 @@ public class ABMCTipoElementos extends JFrame {
 		try {
 			if(!this.txtNombre.getText().equals("")){
 			this.mapearAForm(ctrl.getByNombre(this.mapearDeForm()));
-			lblId.setVisible(true);
-			txtId.setVisible(true);
 			}else{
 				JOptionPane.showMessageDialog(contentPane, "Rellene el campo 'Nombre'.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
 
@@ -330,5 +318,12 @@ public class ABMCTipoElementos extends JFrame {
 		}else{
 			return false;
 		}
+	}
+	public void vaciarCampos(){
+		txtId.setText("");
+		txtNombre.setText("");
+		txtNombre.setText("");
+		chkHabilitado.setSelected(false);
+		cmbCantMaxRes.setSelectedItem(null);
 	}
 }
