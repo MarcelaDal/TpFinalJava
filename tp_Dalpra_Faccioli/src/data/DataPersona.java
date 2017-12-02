@@ -205,7 +205,7 @@ public class DataPersona{
 		try {
 			stmt=FactoryConexion.getInstancia().getConn()
 					.prepareStatement(
-					"update persona set dni=?, nombre=?, apellido=?, id_categoria=?, habilitado=?, contrasenia=?  where id=?"
+					"update persona set dni=?, nombre=?, apellido=?, id_categoria=?, habilitado=? where id=?"
 					);
 			stmt.setString(1, p.getDni());
 			stmt.setString(2, p.getNombre());
