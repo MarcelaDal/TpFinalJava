@@ -77,6 +77,11 @@ public class ABMCClientes extends JFrame {
 		lblId.setHorizontalAlignment(SwingConstants.RIGHT);
 		
 		btnVaciarCampos = new JButton("Vaciar campos");
+		btnVaciarCampos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				vaciarCampos();
+			}
+		});
 		btnVaciarCampos.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -164,7 +169,7 @@ public class ABMCClientes extends JFrame {
 			}
 		});
 		
-		btnBorrar = new JButton("Deshabilitar Cliente");
+		btnBorrar = new JButton("Eliminar Cliente");
 		btnBorrar.setVisible(false);
 		btnBorrar.addMouseListener(new MouseAdapter() {
 			@Override
@@ -310,7 +315,7 @@ public class ABMCClientes extends JFrame {
 						.addComponent(chkVerPassword))
 					.addGap(18)
 					.addComponent(chkHabilitado)
-					.addGap(47)
+					.addGap(49)
 					.addGroup(gl_panelAgregarClientes.createParallelGroup(Alignment.LEADING)
 						.addComponent(btnAgregarCliente, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnModificarDatos, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
@@ -338,7 +343,7 @@ public class ABMCClientes extends JFrame {
 		try{
 			ctrl.add(p);
 			JOptionPane.showMessageDialog(contentPane, "Nuevo cliente agregado con éxito.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
-			
+			this.vaciarCampos();
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage());
 		}
@@ -358,6 +363,7 @@ public class ABMCClientes extends JFrame {
 				if (opcion == 0) { 
 					ctrl.delete(this.mapearDeForm());
 					JOptionPane.showMessageDialog(contentPane, "El cliente ha sido dado de baja.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+					this.vaciarCampos();
 				}else{}
 			} else {
 				JOptionPane.showMessageDialog(contentPane, "Complete el campo 'Nombre'.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
@@ -375,6 +381,7 @@ public class ABMCClientes extends JFrame {
 		try{
 			ctrl.update(this.mapearDeForm());
 			JOptionPane.showMessageDialog(contentPane, "Modificación exitosa", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+			this.vaciarCampos();
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(contentPane, "No se ha podido realizar la modificación.", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
 		}}
@@ -415,15 +422,17 @@ public class ABMCClientes extends JFrame {
 	
 	private Persona mapearDeForm(){
 		Persona p=new Persona();
-		p.setId(Integer.parseInt(this.txtId.getText()));
+		if(!this.txtId.getText().isEmpty()){
+			p.setId(Integer.parseInt(this.txtId.getText()));
+		}		
 		p.setDni(this.txtDni.getText());
 		p.setNombre(this.txtNombre.getText());
 		p.setApellido(this.txtApellido.getText());
 		p.setHabilitado(this.chkHabilitado.isSelected());
-		if (cboCategoria.getSelectedIndex() != -1){
+		if (this.cboCategoria.getSelectedIndex() != -1){
 			p.setCategoria((Categoria)cboCategoria.getSelectedItem());
 		}
-		if(txtContrasenia.isValid()){
+		if(this.txtContrasenia.isValid()){
 			p.setContrasenia(String.valueOf(txtContrasenia.getPassword()));
 		}		
 		return p;
@@ -468,15 +477,18 @@ public class ABMCClientes extends JFrame {
 			chkVerPassword.setVisible(false);
 			cboCategoria.setVisible(true);
 			lblCategoria.setVisible(true);
-			btnAgregarCliente.setVisible(false);
-			btnBorrar.setVisible(false);
-			btnListado.setVisible(false);
+			btnAgregarCliente.setVisible(true);
+			btnBorrar.setVisible(true);
+			btnListado.setVisible(true);
 		}
 		if(CurrentUser.getCurrentUser().getUsuario().getCategoria().getId()!=1){
 			txtContrasenia.setVisible(true);
 			lblContrasenia.setVisible(true);
 			chkVerPassword.setVisible(true);
 			chkHabilitado.setVisible(false);
+			btnAgregarCliente.setVisible(false);
+			btnBorrar.setVisible(false);
+			btnListado.setVisible(false);
 		}
 	}
 	public void vaciarCampos(){
@@ -485,9 +497,6 @@ public class ABMCClientes extends JFrame {
 		txtNombre.setText("");
 		txtApellido.setText("");
 		cboCategoria.setSelectedItem(null);
-		chkHabilitado.setSelected(false);
 		txtContrasenia.setText("");
-		txtId.setVisible(false);
-		lblId.setVisible(false);
 	}
 }

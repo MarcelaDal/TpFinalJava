@@ -30,7 +30,7 @@ public class CtrlABMCClientes {
 	}
 	
 	public Persona getByDni(Persona p) throws Exception{
-		return this.dataPer.getByDni(p);
+		return dataPer.getByDni(p);
 	}
 	
 	public Persona getByDni(String dni)throws Exception{
