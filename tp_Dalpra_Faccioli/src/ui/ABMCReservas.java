@@ -41,8 +41,8 @@ import java.awt.ComponentOrientation;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import com.github.lgooddatepicker.components.TimePicker;
-import com.github.lgooddatepicker.components.TimePickerSettings;
+//import com.github.lgooddatepicker.components.TimePicker;
+//import com.github.lgooddatepicker.components.TimePickerSettings;
 
 public class ABMCReservas extends JFrame {
 
