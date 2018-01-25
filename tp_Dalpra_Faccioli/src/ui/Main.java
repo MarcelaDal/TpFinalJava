@@ -1,5 +1,5 @@
 package ui;
-
+//programa principal
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
